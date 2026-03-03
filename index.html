@@ -6,9 +6,11 @@
     
     <title>王振邦 & 何婧昱 婚礼出席确认</title>
     <meta name="description" content="诚邀您参加我们的婚礼，请于此处确认您的出席信息。">
+    
     <meta property="og:title" content="王振邦 & 何婧昱 婚礼邀约">
     <meta property="og:description" content="期待与您共同见证我们的幸福时刻">
     <meta property="og:image" content="https://wedding-rsvp-c4m.pages.dev/wedding_pic_1.jpg">
+    <meta name="twitter:card" content="summary_large_image">
 
     <style>
         :root {
@@ -25,88 +27,90 @@
         body { 
             margin: 0; 
             background-color: #fffcf9;
-            /* Hearts Background */
             background-image: 
                 radial-gradient(circle at 10% 20%, rgba(212, 163, 115, 0.05) 0%, transparent 20%),
                 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 45.7c-1.3-1.2-3.1-2.1-4.7-2.1-3.1 0-5.6 2.5-5.6 5.6 0 3.9 6.2 8.3 10.3 11.4 4.1-3.1 10.3-7.5 10.3-11.4 0-3.1-2.5-5.6-5.6-5.6-1.6 0-3.4 0.9-4.7 2.1z' fill='%23c19a6b' fill-opacity='0.12'/%3E%3C/svg%3E");
             font-family: "PingFang SC", "Microsoft YaHei", sans-serif; 
             color: var(--text); 
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            display: flex; flex-direction: column; align-items: center;
             min-height: 100vh; padding: 20px 0;
         }
 
         .event-banner {
             position: fixed; top: 0; width: 100%;
-            background: rgba(255, 252, 249, 0.9); backdrop-filter: blur(10px);
-            padding: 15px 10px; text-align: center;
+            background: rgba(255, 252, 249, 0.95); backdrop-filter: blur(10px);
+            padding: 12px 10px; text-align: center;
             border-bottom: 1px solid rgba(193, 154, 107, 0.15); z-index: 100;
         }
         .event-banner .date { font-weight: bold; color: var(--primary); font-size: 1.1rem; }
-        .event-banner .loc { font-size: 0.8rem; color: #999; margin-top: 4px; display: block; }
+        .event-banner .loc { font-size: 0.75rem; color: #999; margin-top: 2px; display: block; }
 
         .card { 
-            width: 92%; max-width: 500px; 
+            width: 92%; max-width: 450px; 
             background: rgba(255, 255, 255, 0.98); 
-            padding: 40px 25px; border-radius: 35px; 
-            box-shadow: 0 20px 50px rgba(193, 154, 107, 0.15); 
-            text-align: center; margin-top: 80px;
+            padding: 35px 20px; border-radius: 30px; 
+            box-shadow: 0 15px 40px rgba(193, 154, 107, 0.12); 
+            text-align: center; margin-top: 80px; margin-bottom: 40px;
         }
         
-        .ch-title { font-size: 1.8rem; font-weight: 600; letter-spacing: 4px; color: #333; margin-top: 10px; }
-        h1 { font-weight: 300; letter-spacing: 2px; margin: 0; color: var(--primary); font-size: 1.2rem; }
-        .instruction { font-size: 0.9rem; color: #888; margin: 25px 0 10px; }
+        .ch-title { font-size: 1.6rem; font-weight: 600; letter-spacing: 3px; color: #333; margin-top: 5px; }
+        h1 { font-weight: 300; letter-spacing: 1px; margin: 0; color: var(--primary); font-size: 1.1rem; }
 
-        /* Modified Answer Notice */
         .notice-box {
             background: var(--accent);
             padding: 12px; border-radius: 12px;
-            font-size: 0.75rem; color: var(--primary);
-            margin-bottom: 25px; line-height: 1.4;
+            font-size: 0.8rem; color: var(--primary);
+            margin: 20px 0; line-height: 1.5; text-align: left;
         }
 
-        .input-group { margin-bottom: 20px; text-align: left; }
-        label { display: block; font-size: 0.85rem; margin-bottom: 8px; color: var(--primary); font-weight: 600; }
+        .input-group { margin-bottom: 18px; text-align: left; }
+        label { display: block; font-size: 0.85rem; margin-bottom: 6px; color: var(--primary); font-weight: 600; }
+        
         input, select { 
-            width: 100%; height: 50px; padding: 0 15px; border: 1px solid #f0f0f0; 
-            border-radius: 15px; font-size: 16px; background: #fff; outline: none; 
+            width: 100%; height: 48px; padding: 0 12px; border: 1px solid #eee; 
+            border-radius: 12px; font-size: 16px; background: #fff; outline: none;
+            appearance: none; -webkit-appearance: none;
         }
+
+        /* Fix for mobile date display */
+        .date-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        @media (max-width: 380px) { .date-grid { grid-template-columns: 1fr; } }
 
         .hotel-toggle-card { 
-            background: #fdfaf7; padding: 20px; border-radius: 20px; 
+            background: #fdfaf7; padding: 18px; border-radius: 18px; 
             display: flex; align-items: center; justify-content: space-between; 
             cursor: pointer; border: 2px solid transparent; margin: 20px 0;
-            transition: 0.3s;
+            transition: 0.2s;
         }
         .hotel-toggle-card.active { border-color: var(--primary); background: #fff; }
-        .custom-check { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #ddd; position: relative; }
-        .active .custom-check { background: var(--primary); border-color: var(--primary); }
-        .active .custom-check::after { content: '✓'; color: white; position: absolute; left: 5px; top: 1px; font-size: 14px; }
+        
+        .custom-check { 
+            width: 24px; height: 24px; border-radius: 50%; border: 2px solid #ddd; 
+            display: flex; align-items: center; justify-content: center; font-size: 14px;
+        }
+        .active .custom-check { background: var(--primary); border-color: var(--primary); color: white; }
 
         button { 
-            width: 100%; height: 55px; background: var(--primary); color: white; 
-            border: none; border-radius: 18px; font-size: 1rem; font-weight: 600; 
-            box-shadow: 0 10px 20px rgba(193, 154, 107, 0.2); 
+            width: 100%; height: 52px; background: var(--primary); color: white; 
+            border: none; border-radius: 15px; font-size: 1rem; font-weight: 600; 
+            margin-top: 10px; cursor: pointer;
         }
 
-        /* Admin Table Styles */
-        .admin-wrap { width: 100%; overflow-x: auto; margin-top: 20px; }
-        .guest-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; min-width: 450px; }
-        .guest-table th { text-align: left; color: var(--primary); padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        .admin-wrap { width: 100%; overflow-x: auto; margin-top: 20px; border-radius: 15px; }
+        .guest-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; min-width: 400px; }
+        .guest-table th { text-align: left; color: var(--primary); padding: 10px 5px; border-bottom: 1px solid #eee; }
         .guest-table td { padding: 12px 5px; border-bottom: 1px solid #fafafa; }
-        .tag { padding: 3px 8px; border-radius: 6px; font-weight: bold; font-size: 0.7rem; }
-        .tag-yes { background: var(--tag-yes); color: #6b8e23; }
-        .tag-no { background: var(--tag-no); color: #cc6666; }
 
         .hidden { display: none; }
-        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div class="event-banner">
     <span class="date">2026年06月21日</span>
-    <span class="loc">辽宁省沈阳市沈河区北站一路43号 · 万豪酒店</span>
+    <span class="loc">辽阳省沈阳市沈河区北站一路43号 · 万豪酒店</span>
 </div>
 
 <div class="card fade-in">
@@ -114,19 +118,18 @@
     <h1>Zhenbang & Jingyu</h1>
     
     <div id="step1">
-        <p class="instruction">诚邀您见证我们的婚礼，请确认您的出席信息：</p>
         <div class="notice-box">
-            💡 小提示：提交后，您可以随时重新输入姓名来修改您的回复。
+            欢迎！请填写您的出席信息。提交后，您可以随时重新输入姓名来修改您的选择。
         </div>
         <div class="input-group">
             <label>您的姓名</label>
             <input type="text" id="nameInput" placeholder="请输入姓名">
         </div>
-        <button onclick="handleLogin()">开始确认</button>
+        <button onclick="handleLogin()">开始填写</button>
     </div>
 
     <div id="rsvpStep" class="hidden">
-        <p style="font-size: 1.1rem; margin-bottom: 20px;">您好, <strong id="userName" style="color:var(--primary)"></strong></p>
+        <p style="font-size: 1.1rem; margin: 20px 0;">您好, <strong id="userName" style="color:var(--primary)"></strong></p>
         
         <div class="input-group">
             <label>确认出席</label>
@@ -145,46 +148,44 @@
             <div id="hotelCard" class="hotel-toggle-card" onclick="toggleHotel()">
                 <div style="text-align:left">
                     <span style="font-weight:600; color:var(--primary); display:block">需要安排酒店住宿</span>
+                    <span style="font-size:0.7rem; color:#999">我们将为您预订酒店客房</span>
                 </div>
-                <div class="custom-check"></div>
+                <div class="custom-check">✓</div>
                 <input type="checkbox" id="hotel" class="hidden">
             </div>
 
-            <div id="hotelDates" class="hidden" style="background:#fcfcfc; padding:15px; border-radius:15px; border:1px solid #f0f0f0; margin-bottom:20px;">
+            <div id="hotelDates" class="hidden fade-in" style="background:#fcfcfc; padding:15px; border-radius:15px; border:1px solid #f0f0f0; margin-bottom:20px;">
                 <div class="input-group">
-                    <label>房间数</label>
+                    <label>所需房间数</label>
                     <input type="number" id="roomCount" value="1" min="1">
                 </div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                    <div class="input-group"><label>入住</label><input type="date" id="startDate"></div>
-                    <div class="input-group"><label>退房</label><input type="date" id="endDate"></div>
+                <div class="date-grid">
+                    <div class="input-group"><label>入住日期</label><input type="date" id="startDate"></div>
+                    <div class="input-group"><label>退房日期</label><input type="date" id="endDate"></div>
                 </div>
             </div>
         </div>
 
-        <button onclick="handleSave()">提交确认</button>
-        <p style="font-size:0.8rem; color:#ccc; margin-top:20px; cursor:pointer" onclick="location.reload()">← 返回修改姓名</p>
+        <button onclick="handleSave()">确认提交</button>
+        <p style="font-size:0.8rem; color:#bbb; margin-top:25px; cursor:pointer" onclick="location.reload()">← 返回修改姓名</p>
     </div>
 
     <div id="adminStep" class="hidden">
         <div style="display:flex; gap:10px; margin-bottom:20px;">
-            <div style="flex:1; background:var(--accent); padding:15px; border-radius:15px;">
-                <span id="statPeople" style="font-size:1.5rem; font-weight:bold; color:var(--primary)">0</span><br><small>出席人数</small>
+            <div style="flex:1; background:var(--accent); padding:12px; border-radius:12px;">
+                <span id="statPeople" style="font-size:1.4rem; font-weight:bold; color:var(--primary)">0</span><br><small>出席人数</small>
             </div>
-            <div style="flex:1; background:var(--accent); padding:15px; border-radius:15px;">
-                <span id="statRooms" style="font-size:1.5rem; font-weight:bold; color:var(--primary)">0</span><br><small>所需房间</small>
+            <div style="flex:1; background:var(--accent); padding:12px; border-radius:12px;">
+                <span id="statRooms" style="font-size:1.4rem; font-weight:bold; color:var(--primary)">0</span><br><small>所需房间</small>
             </div>
         </div>
-
         <div class="admin-wrap">
             <table class="guest-table">
-                <thead>
-                    <tr><th>宾客</th><th>状态</th><th>人数/房</th><th>入住周期</th></tr>
-                </thead>
+                <thead><tr><th>姓名</th><th>状态</th><th>人数/房</th><th>备注</th></tr></thead>
                 <tbody id="adminTableBody"></tbody>
             </table>
         </div>
-        <button style="margin-top:20px; background:#eee; color:#999; box-shadow:none" onclick="location.reload()">退出管理</button>
+        <button style="margin-top:20px; background:#f0f0f0; color:#999;" onclick="location.reload()">退出管理</button>
     </div>
 </div>
 
@@ -199,17 +200,16 @@
     }
 
     document.getElementById('attending').addEventListener('change', e => {
-        document.getElementById('detailsArea').style.display = e.target.value === 'yes' ? 'block' : 'none';
+        document.getElementById('detailsArea').classList.toggle('hidden', e.target.value !== 'yes');
     });
 
     async function handleLogin() {
         const nameInput = document.getElementById('nameInput').value.trim();
         const cleanName = clean(nameInput);
-        if (!cleanName) return alert("请输入您的姓名");
+        if (!cleanName) return alert("请输入姓名");
 
         if (['zhenbang', 'jingyu'].includes(cleanName.toLowerCase())) {
-            loadAdmin();
-            return;
+            loadAdmin(); return;
         }
 
         const res = await fetch(`/api/rsvp?name=${encodeURIComponent(cleanName)}`);
@@ -217,7 +217,6 @@
         
         document.getElementById('step1').classList.add('hidden');
         document.getElementById('rsvpStep').classList.remove('hidden');
-        document.getElementById('rsvpStep').classList.add('fade-in');
         document.getElementById('userName').innerText = cleanName;
 
         if (!data.isNew) {
@@ -235,31 +234,6 @@
         }
     }
 
-    async function loadAdmin() {
-        const res = await fetch(`/api/rsvp?admin=true`);
-        const allData = await res.json();
-        document.getElementById('step1').classList.add('hidden');
-        document.getElementById('adminStep').classList.remove('hidden');
-
-        let p = 0, r = 0;
-        const tbody = document.getElementById('adminTableBody');
-        tbody.innerHTML = '';
-
-        allData.forEach(item => {
-            if(item.coming) p += item.people;
-            if(item.needsHotel) r += item.roomCount;
-
-            tbody.innerHTML += `<tr>
-                <td><b>${item.name}</b></td>
-                <td><span class="tag ${item.coming?'tag-yes':'tag-no'}">${item.coming?'出席':'不出席'}</span></td>
-                <td>${item.coming ? (item.people+'人 / '+(item.needsHotel?item.roomCount+'房':'无')) : '-'}</td>
-                <td><small>${item.needsHotel ? (item.startDate + ' 至 ' + item.endDate) : '-'}</small></td>
-            </tr>`;
-        });
-        document.getElementById('statPeople').innerText = p;
-        document.getElementById('statRooms').innerText = r;
-    }
-
     async function handleSave() {
         const name = clean(document.getElementById('nameInput').value);
         const coming = document.getElementById('attending').value === 'yes';
@@ -275,7 +249,29 @@
         };
 
         await fetch(`/api/rsvp?name=${encodeURIComponent(name)}`, { method: 'POST', body: JSON.stringify(payload) });
-        alert("确认信息已保存！您可以随时回来修改。");
+        alert("保存成功！期待您的到来。");
+    }
+
+    async function loadAdmin() {
+        const res = await fetch(`/api/rsvp?admin=true`);
+        const allData = await res.json();
+        document.getElementById('step1').classList.add('hidden');
+        document.getElementById('adminStep').classList.remove('hidden');
+        let p = 0, r = 0;
+        const tbody = document.getElementById('adminTableBody');
+        tbody.innerHTML = '';
+        allData.forEach(item => {
+            if(item.coming) p += item.people;
+            if(item.needsHotel) r += item.roomCount;
+            tbody.innerHTML += `<tr>
+                <td><b>${item.name}</b></td>
+                <td>${item.coming?'出席':'不出席'}</td>
+                <td>${item.coming ? (item.people+'人/'+(item.needsHotel?item.roomCount+'房':'无')) : '-'}</td>
+                <td><small>${item.needsHotel ? item.startDate.split('-').slice(1).join('/') : '-'}</small></td>
+            </tr>`;
+        });
+        document.getElementById('statPeople').innerText = p;
+        document.getElementById('statRooms').innerText = r;
     }
 </script>
 </body>
