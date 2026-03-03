@@ -2,26 +2,43 @@ export async function onRequest(context) {
   const { request, env } = context;
   const url = new URL(request.url);
   
-  // 1. Normalize the Chinese Name from the query string or body
-  // Removes all types of spaces (standard and Chinese full-width)
+  // 1. Get and Clean the Chinese Name
   const rawName = url.searchParams.get("name") || "";
   const cleanName = rawName.replace(/[\s\u3000]+/g, '');
 
-  if (!cleanName) return new Response("Name required", { status: 400 });
-
-  // 2. HANDLE GET: Check for existing RSVP
-  if (request.method === "GET") {
-    const data = await env.WEDDING_RSVP.get(cleanName);
-    return new Response(data || JSON.stringify({ new: true }), {
-      headers: { "Content-Type": "application/json" }
-    });
+  if (!cleanName) {
+    return new Response(JSON.stringify({ error: "Name required" }), { status: 400 });
   }
 
-  // 3. HANDLE POST: Save/Update RSVP
+  // 2. Handle GET (Search for existing user)
+  if (request.method === "GET") {
+    try {
+      const data = await env.WEDDING_RSVP.get(cleanName);
+      if (!data) {
+        // Return a 'new' flag if person isn't in DB yet
+        return new Response(JSON.stringify({ isNew: true }), {
+          headers: { "Content-Type": "application/json" }
+        });
+      }
+      return new Response(data, {
+        headers: { "Content-Type": "application/json" }
+      });
+    } catch (e) {
+      return new Response(JSON.stringify({ error: e.message }), { status: 500 });
+    }
+  }
+
+  // 3. Handle POST (Save/Update)
   if (request.method === "POST") {
-    const body = await request.json();
-    // Save the data using the clean name as the key
-    await env.WEDDING_RSVP.put(cleanName, JSON.stringify(body));
-    return new Response("Success", { status: 200 });
+    try {
+      const body = await request.json();
+      // We store the whole object as a string in KV
+      await env.WEDDING_RSVP.put(cleanName, JSON.stringify(body));
+      return new Response(JSON.stringify({ success: true }), {
+        headers: { "Content-Type": "application/json" }
+      });
+    } catch (e) {
+      return new Response(JSON.stringify({ error: "Failed to save" }), { status: 500 });
+    }
   }
 }
