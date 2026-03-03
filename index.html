@@ -9,7 +9,6 @@
             --primary: #c19a6b; 
             --accent: #f8f1e9;
             --text: #58514a;
-            --bg: #fffcf9;
             --white: #ffffff;
             --tag-yes: #eef5e9;
             --tag-no: #fdf0f0;
@@ -19,85 +18,88 @@
         
         body { 
             margin: 0; 
-            background-color: var(--bg); 
+            /* Multi-colored Heart Background Pattern */
+            background-color: #fffcf9;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(212, 163, 115, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(204, 102, 102, 0.05) 0%, transparent 20%),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 45.7c-1.3-1.2-3.1-2.1-4.7-2.1-3.1 0-5.6 2.5-5.6 5.6 0 3.9 6.2 8.3 10.3 11.4 4.1-3.1 10.3-7.5 10.3-11.4 0-3.1-2.5-5.6-5.6-5.6-1.6 0-3.4 0.9-4.7 2.1z' fill='%23c19a6b' fill-opacity='0.1'/%3E%3Cpath d='M20 15.7c-1.3-1.2-3.1-2.1-4.7-2.1-3.1 0-5.6 2.5-5.6 5.6 0 3.9 6.2 8.3 10.3 11.4 4.1-3.1 10.3-7.5 10.3-11.4 0-3.1-2.5-5.6-5.6-5.6-1.6 0-3.4 0.9-4.7 2.1z' fill='%23cc6666' fill-opacity='0.08'/%3E%3C/svg%3E");
             font-family: "PingFang SC", "Microsoft YaHei", sans-serif; 
             color: var(--text); 
             display: flex; 
             flex-direction: column;
             align-items: center;
-            justify-content: center; /* Centers the card vertically */
+            justify-content: center;
             min-height: 100vh; 
             padding: 20px 0;
         }
 
-        /* Fixed Event Info Header */
         .event-banner {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 252, 249, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 15px 10px;
-            text-align: center;
-            border-bottom: 1px solid rgba(193, 154, 107, 0.2);
+            position: fixed; top: 0; width: 100%;
+            background: rgba(255, 252, 249, 0.85);
+            backdrop-filter: blur(12px);
+            padding: 18px 10px; text-align: center;
+            border-bottom: 1px solid rgba(193, 154, 107, 0.15);
             z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
         }
-
-        .event-banner .date { font-weight: bold; color: var(--primary); letter-spacing: 1px; font-size: 1.1rem; }
-        .event-banner .loc { font-size: 0.8rem; color: #999; margin-top: 4px; display: block; }
+        .event-banner .date { font-weight: bold; color: var(--primary); letter-spacing: 2px; font-size: 1.1rem; }
+        .event-banner .loc { font-size: 0.8rem; color: #999; margin-top: 5px; display: block; }
 
         .card { 
-            width: 92%; 
-            max-width: 480px; 
-            background: var(--white); 
-            padding: 40px 25px; 
-            border-radius: 35px; 
-            box-shadow: 0 20px 50px rgba(193, 154, 107, 0.12); 
-            text-align: center; 
-            border: 1px solid rgba(193, 154, 107, 0.1);
-            margin-top: 80px; /* Space for the fixed banner */
+            width: 92%; max-width: 500px; 
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 45px 25px; border-radius: 40px; 
+            box-shadow: 0 25px 60px rgba(193, 154, 107, 0.15); 
+            text-align: center; border: 1px solid var(--white);
+            margin-top: 100px;
+            backdrop-filter: blur(5px);
         }
         
-        .welcome-msg { color: var(--primary); font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 10px; display: block; }
-        .ornament { font-size: 20px; color: var(--primary); margin-bottom: 5px; display: block; opacity: 0.7; }
-        .ch-title { font-size: 1.6rem; font-weight: 600; letter-spacing: 3px; margin-bottom: 2px; }
-        h1 { font-weight: 300; letter-spacing: 1px; margin: 0; color: var(--primary); font-size: 1.3rem; opacity: 0.8; }
-        .subtitle { font-size: 0.7rem; color: #ccc; text-transform: uppercase; margin-bottom: 30px; margin-top: 8px; border-top: 1px solid #fcf2e8; display: inline-block; padding-top: 8px; width: 60%; }
+        .welcome-msg { color: var(--primary); font-size: 0.85rem; letter-spacing: 3px; margin-bottom: 8px; display: block; opacity: 0.8; }
+        .ch-title { font-size: 1.8rem; font-weight: 600; letter-spacing: 5px; margin-bottom: 4px; color: #444; }
+        h1 { font-weight: 300; letter-spacing: 2px; margin: 0; color: var(--primary); font-size: 1.3rem; }
+        .subtitle { font-size: 0.7rem; color: #ddd; text-transform: uppercase; margin: 15px 0 35px; border-top: 1px solid #fcf2e8; display: inline-block; padding-top: 10px; width: 50%; }
 
-        /* Form Styles */
-        .input-group { margin-bottom: 20px; text-align: left; }
-        label { display: block; font-size: 0.85rem; margin-bottom: 8px; color: var(--primary); font-weight: 600; }
-        input, select { width: 100%; height: 50px; padding: 0 15px; border: 1px solid #f0f0f0; border-radius: 15px; font-size: 16px; background: #fafafa; outline: none; transition: 0.3s; }
-        input:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(193, 154, 107, 0.05); }
+        .input-group { margin-bottom: 22px; text-align: left; }
+        label { display: block; font-size: 0.85rem; margin-bottom: 10px; color: var(--primary); font-weight: 600; }
+        input, select { 
+            width: 100%; height: 52px; padding: 0 18px; border: 1px solid #f2f2f2; 
+            border-radius: 16px; font-size: 16px; background: #fff; outline: none; transition: 0.3s;
+        }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 0 5px rgba(193, 154, 107, 0.08); }
 
-        /* Accommodation Toggle */
-        .hotel-toggle-card { background: var(--accent); padding: 20px; border-radius: 20px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; border: 2px solid transparent; margin: 25px 0; }
-        .hotel-toggle-card.active { border-color: var(--primary); background: #fff; }
-        .hotel-toggle-card .info { text-align: left; }
-        .hotel-toggle-card .title { font-weight: 600; color: var(--primary); display: block; }
-        .hotel-toggle-card .desc { font-size: 0.75rem; color: #a19a94; }
-        .custom-check { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--primary); position: relative; }
-        .active .custom-check::after { content: '✓'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--primary); font-weight: bold; }
+        .hotel-toggle-card { 
+            background: linear-gradient(135deg, #fdf8f3 0%, #f8f1e9 100%);
+            padding: 22px; border-radius: 22px; display: flex; align-items: center; 
+            justify-content: space-between; cursor: pointer; border: 2px solid transparent; margin: 25px 0;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hotel-toggle-card.active { border-color: var(--primary); background: #fff; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(193, 154, 107, 0.1); }
+        .hotel-toggle-card .title { font-weight: 600; color: var(--primary); display: block; margin-bottom: 2px; }
+        .hotel-toggle-card .desc { font-size: 0.75rem; color: #b1a9a2; }
+        .custom-check { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #e0e0e0; position: relative; transition: 0.3s; }
+        .active .custom-check { border-color: var(--primary); background: var(--primary); }
+        .active .custom-check::after { content: '✓'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-weight: bold; font-size: 14px; }
 
-        button { width: 100%; height: 55px; background: var(--primary); color: white; border: none; border-radius: 18px; font-size: 1rem; font-weight: 600; cursor: pointer; box-shadow: 0 10px 20px rgba(193, 154, 107, 0.2); }
-        .back-link { display: inline-block; margin-top: 20px; font-size: 0.85rem; color: #bbb; cursor: pointer; }
+        button { 
+            width: 100%; height: 58px; background: var(--primary); color: white; border: none; 
+            border-radius: 20px; font-size: 1rem; font-weight: 600; cursor: pointer; 
+            box-shadow: 0 12px 25px rgba(193, 154, 107, 0.25); transition: 0.3s; margin-top: 10px;
+        }
+        button:hover { background: #b0895a; }
+        .back-link { display: inline-block; margin-top: 25px; font-size: 0.8rem; color: #ccc; cursor: pointer; transition: 0.3s; }
+        .back-link:hover { color: var(--primary); }
 
-        /* Admin Dashboard */
-        .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
-        .stat-box { background: var(--accent); padding: 15px; border-radius: 15px; }
-        .stat-box .val { font-size: 1.4rem; font-weight: bold; color: var(--primary); display: block; }
-        .stat-box .lbl { font-size: 0.7rem; color: #a19a94; }
-
-        .guest-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-        .guest-table td { padding: 12px 5px; border-bottom: 1px solid #fafafa; text-align: left; }
-        .tag { padding: 3px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: bold; }
-        .tag-yes { background: var(--tag-yes); color: #6b8e23; }
-        .tag-no { background: var(--tag-no); color: #cc6666; }
+        /* Admin Table */
+        .admin-wrap { width: 100%; overflow-x: auto; }
+        .guest-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; min-width: 400px; }
+        .guest-table th { color: var(--primary); text-align: left; padding: 10px 5px; font-size: 0.7rem; text-transform: uppercase; border-bottom: 1px solid #f0f0f0; }
+        .guest-table td { padding: 14px 5px; border-bottom: 1px solid #fafafa; vertical-align: middle; }
+        .stay-info { font-size: 0.7rem; color: #999; display: block; line-height: 1.2; }
 
         .hidden { display: none; }
-        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.6s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -109,7 +111,6 @@
 
 <div class="card fade-in">
     <span class="welcome-msg">欢迎来到我们的婚礼</span>
-    <span class="ornament">✧ ❀ ✧</span>
     <div class="ch-title">王振邦 & 何婧昱</div>
     <h1>Zhenbang & Jingyu</h1>
     <div class="subtitle">Wedding Celebration</div>
@@ -117,13 +118,13 @@
     <div id="step1">
         <div class="input-group">
             <label>请输入您的姓名</label>
-            <input type="text" id="nameInput" placeholder="输入姓名">
+            <input type="text" id="nameInput" placeholder="请输入您的真实姓名">
         </div>
         <button onclick="handleLogin()">确认进入</button>
     </div>
 
     <div id="rsvpStep" class="hidden">
-        <p style="font-size: 1.1rem; margin-bottom: 25px;">您好, <strong id="userName" style="color:var(--primary)"></strong></p>
+        <p style="font-size: 1.1rem; margin-bottom: 30px;">您好, <strong id="userName" style="color:var(--primary)"></strong></p>
         
         <div class="input-group">
             <label>是否出席婚礼</label>
@@ -142,39 +143,42 @@
             <div id="hotelCard" class="hotel-toggle-card" onclick="toggleHotel()">
                 <div class="info">
                     <span class="title">需要安排住宿</span>
-                    <span class="desc">我们将为您预订酒店房间</span>
+                    <span class="desc">我们将为您预留万豪酒店客房</span>
                 </div>
                 <div class="custom-check"></div>
                 <input type="checkbox" id="hotel" class="hidden">
             </div>
 
-            <div id="hotelDates" class="hidden" style="background:#fafafa; padding:15px; border-radius:15px; margin-bottom:20px; border:1px solid #f0f0f0;">
+            <div id="hotelDates" class="hidden" style="background:#fcfcfc; padding:20px; border-radius:20px; margin-bottom:25px; border:1px solid #f0f0f0;">
                 <div class="input-group">
-                    <label>所需房间数量</label>
+                    <label>房间数量</label>
                     <input type="number" id="roomCount" value="1" min="1">
                 </div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                    <div class="input-group"><label>入住日期</label><input type="date" id="startDate"></div>
-                    <div class="input-group"><label>退房日期</label><input type="date" id="endDate"></div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                    <div class="input-group"><label>入住</label><input type="date" id="startDate"></div>
+                    <div class="input-group"><label>退房</label><input type="date" id="endDate"></div>
                 </div>
             </div>
         </div>
 
-        <button onclick="handleSave()">提交回执</button>
+        <button onclick="handleSave()">保存提交</button>
         <span class="back-link" onclick="location.reload()">← 返回修改姓名</span>
     </div>
 
     <div id="adminStep" class="hidden">
-        <div class="stats-row">
-            <div class="stat-box"><span class="val" id="statPeople">0</span><span class="lbl">确认出席</span></div>
-            <div class="stat-box"><span class="val" id="statRooms">0</span><span class="lbl">所需房间</span></div>
+        <div class="stats-row" style="display: flex; gap: 15px; margin-bottom: 30px;">
+            <div class="stat-box" style="flex:1"><span class="val" id="statPeople">0</span><span class="lbl">确认出席</span></div>
+            <div class="stat-box" style="flex:1"><span class="val" id="statRooms">0</span><span class="lbl">所需房间</span></div>
         </div>
-        <div style="max-height: 350px; overflow-y: auto;">
+        <div class="admin-wrap">
             <table class="guest-table">
+                <thead>
+                    <tr><th>宾客</th><th>状态</th><th>人数/房间</th><th>入住周期</th></tr>
+                </thead>
                 <tbody id="adminTableBody"></tbody>
             </table>
         </div>
-        <button style="margin-top:25px; background:#f4f4f4; color:#999; box-shadow:none;" onclick="location.reload()">退出管理</button>
+        <button style="margin-top:35px; background:#f8f8f8; color:#bbb; box-shadow:none; font-size:0.9rem;" onclick="location.reload()">退出管理后台</button>
     </div>
 </div>
 
@@ -194,6 +198,7 @@
         if(cb.checked) {
             card.classList.add('active');
             dates.classList.remove('hidden');
+            dates.classList.add('fade-in');
         } else {
             card.classList.remove('active');
             dates.classList.add('hidden');
@@ -250,11 +255,16 @@
             if (item.coming) totalP += (item.people || 0);
             if (item.needsHotel) totalR += (item.roomCount || 0);
 
+            // Updated Admin Table row with Date range
+            const stayText = item.needsHotel 
+                ? `<span class="stay-info">${item.startDate || '未填'}</span><span class="stay-info">至 ${item.endDate || '未填'}</span>` 
+                : '-';
+
             tbody.innerHTML += `<tr>
                 <td style="font-weight:600">${item.name}</td>
                 <td><span class="tag ${item.coming?'tag-yes':'tag-no'}">${item.coming?'出席':'缺席'}</span></td>
-                <td>${item.coming ? item.people + '人' : '-'}</td>
-                <td>${item.needsHotel ? (item.roomCount+'间') : '-'}</td>
+                <td>${item.coming ? (item.people+'人 / ' + (item.needsHotel ? item.roomCount+'房' : '无房')) : '-'}</td>
+                <td>${stayText}</td>
             </tr>`;
         });
 
@@ -278,7 +288,7 @@
         };
 
         await fetch(`/api/rsvp?name=${encodeURIComponent(name)}`, { method: 'POST', body: JSON.stringify(payload) });
-        alert("回执提交成功！感谢您的回复。");
+        alert("回执已成功提交，期待与您相见！");
     }
 </script>
 </body>
