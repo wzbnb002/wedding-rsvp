@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Wedding RSVP</title>
+</head>
+<body>
+    <div id="app">
+        <h2>婚礼请帖回执</h2>
+        <input type="text" id="nameInput" placeholder="请输入您的姓名">
+        <button onclick="checkRSVP()">查询/开始</button>
+
+        <div id="rsvpForm" style="display:none;">
+            <hr>
+            <p>欢迎, <span id="displayName"></span>!</p>
+            <label>是否出席? 
+                <select id="coming">
+                    <option value="yes">出席</option>
+                    <option value="no">不出席</option>
+                </select>
+            </label><br><br>
+            <label>随行人数: <input type="number" id="count" value="1"></label><br><br>
+            <label>需要住宿? <input type="checkbox" id="hotel"></label><br><br>
+            <button onclick="submitRSVP()">提交更新</button>
+        </div>
+    </div>
+
+    <script>
+        // Normalize Chinese names: remove all spaces
+        const getCleanName = () => document.getElementById('nameInput').value.replace(/[\s\u3000]+/g, '');
+
+        async function checkRSVP() {
+            const name = getCleanName();
+            if (!name) return alert("请输入姓名");
+
+            const res = await fetch(`/api/rsvp?name=${encodeURIComponent(name)}`);
+            const data = await res.json();
+
+            document.getElementById('rsvpForm').style.display = 'block';
+            document.getElementById('displayName').innerText = name;
+
+            if (!data.new) {
+                // Pre-fill form with existing data
+                document.getElementById('coming').value = data.attending ? 'yes' : 'no';
+                document.getElementById('count').value = data.partySize;
+                document.getElementById('hotel').checked = data.needsAccommodation;
+            }
+        }
+
+        async function submitRSVP() {
+            const name = getCleanName();
+            const payload = {
+                name: name,
+                attending: document.getElementById('coming').value === 'yes',
+                partySize: parseInt(document.getElementById('count').value),
+                needsAccommodation: document.getElementById('hotel').checked
+            };
+
+            const res = await fetch(`/api/rsvp?name=${encodeURIComponent(name)}`, {
+                method: 'POST',
+                body: JSON.stringify(payload)
+            });
+
+            if (res.ok) alert("提交成功！Success!");
+        }
+    </script>
+</body>
+</html>
