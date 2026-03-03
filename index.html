@@ -3,114 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我们的婚礼回执</title>
+    <title>婚礼回执</title>
     <style>
-        body { font-family: sans-serif; display: flex; justify-content: center; padding: 20px; background: #f9f9f9; }
-        .card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
-        input, select, button { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        button { background: #d4a373; color: white; border: none; cursor: pointer; font-weight: bold; }
-        button:hover { background: #bc8a5f; }
+        body { font-family: -apple-system, sans-serif; background: #f4f4f9; display: flex; justify-content: center; padding: 20px; }
+        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 350px; }
+        h2 { color: #5a5a5a; text-align: center; }
+        input, select, button { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; font-size: 16px; }
+        button { background: #8b5cf6; color: white; border: none; font-weight: bold; cursor: pointer; }
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h2>婚礼邀请函回执</h2>
+<div class="container">
+    <h2>婚礼庆典回执</h2>
     
-    <div id="step1">
-        <p>请输入您的姓名以开始：</p>
-        <input type="text" id="nameInput" placeholder="姓名 (如: 王振邦)">
-        <button onclick="checkRSVP()">进入回执</button>
+    <div id="loginSection">
+        <input type="text" id="nameInput" placeholder="请输入您的姓名">
+        <button onclick="loadRSVP()">查询 / 进入</button>
     </div>
 
-    <div id="step2" class="hidden">
-        <p>欢迎, <strong id="displayName"></strong>!</p>
-        
-        <label>您是否出席？</label>
+    <div id="formSection" class="hidden">
+        <p>您好, <strong id="userDisp"></strong></p>
+        <label>是否出席：</label>
         <select id="attending">
-            <option value="true">确认出席</option>
-            <option value="false">抱歉，无法参加</option>
+            <option value="yes">出席</option>
+            <option value="no">不出席</option>
         </select>
-
-        <label>随行总人数 (含自己):</label>
-        <input type="number" id="partySize" min="1" max="10" value="1">
-
-        <label>
-            <input type="checkbox" id="needsHotel" style="width: auto;"> 需要安排住宿
+        
+        <label>随行人数：</label>
+        <input type="number" id="count" value="1" min="1">
+        
+        <label style="display:block; margin: 10px 0;">
+            <input type="checkbox" id="hotel" style="width:auto;"> 需要安排住宿
         </label>
-
-        <button id="submitBtn" onclick="submitRSVP()">提交回执</button>
-        <p id="statusMsg" style="text-align:center; color: green;"></p>
+        
+        <button id="saveBtn" onclick="saveRSVP()">提交更新</button>
     </div>
 </div>
 
 <script>
-    // 1. Helper to clean Chinese names (strips all whitespace)
-    const clean = (str) => str.replace(/[\s\u3000]+/g, '');
+    const clean = (n) => n.replace(/[\s\u3000]+/g, '');
 
-    async function checkRSVP() {
+    async function loadRSVP() {
         const name = clean(document.getElementById('nameInput').value);
-        if (!name) return alert("请输入姓名");
+        if (!name) return alert("请先输入姓名");
 
         try {
-            // NOTE: Use relative path /api/rsvp, not the workers.dev URL
-            const response = await fetch(`/api/rsvp?name=${encodeURIComponent(name)}`);
-            
-            if (!response.ok) throw new Error("Server Error");
-            
-            const data = await response.json();
+            // Using a relative path ensures it hits Cloudflare Pages, not the old Worker
+            const res = await fetch(`/api/rsvp?name=${encodeURIComponent(name)}`);
+            const data = await res.json();
 
-            // Setup UI
-            document.getElementById('step1').classList.add('hidden');
-            document.getElementById('step2').classList.remove('hidden');
-            document.getElementById('displayName').innerText = name;
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('formSection').classList.remove('hidden');
+            document.getElementById('userDisp').innerText = name;
 
-            // If user already exists, pre-fill form
             if (!data.isNew) {
-                document.getElementById('attending').value = data.attending.toString();
-                document.getElementById('partySize').value = data.partySize;
-                document.getElementById('needsHotel').checked = data.needsAccommodation;
-                document.getElementById('statusMsg').innerText = "您之前已提交过，现在可以修改。";
+                document.getElementById('attending').value = data.coming ? 'yes' : 'no';
+                document.getElementById('count').value = data.people;
+                document.getElementById('hotel').checked = data.needsHotel;
             }
-        } catch (err) {
-            console.error(err);
-            alert("无法连接服务器，请检查网络或稍后再试。");
+        } catch (e) {
+            alert("加载失败，请确保您是通过 Pages 域名访问的。");
         }
     }
 
-    async function submitRSVP() {
+    async function saveRSVP() {
         const name = clean(document.getElementById('nameInput').value);
-        const btn = document.getElementById('submitBtn');
-        btn.disabled = true;
-        btn.innerText = "正在提交...";
-
         const payload = {
-            name: name,
-            attending: document.getElementById('attending').value === "true",
-            partySize: parseInt(document.getElementById('partySize').value),
-            needsAccommodation: document.getElementById('needsHotel').checked
+            coming: document.getElementById('attending').value === 'yes',
+            people: parseInt(document.getElementById('count').value),
+            needsHotel: document.getElementById('hotel').checked
         };
 
-        try {
-            const response = await fetch(`/api/rsvp?name=${encodeURIComponent(name)}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
+        const res = await fetch(`/api/rsvp?name=${encodeURIComponent(name)}`, {
+            method: 'POST',
+            body: JSON.stringify(payload)
+        });
 
-            if (response.ok) {
-                document.getElementById('statusMsg').innerText = "提交成功！期待您的到来。";
-                alert("提交成功！");
-            }
-        } catch (err) {
-            alert("提交失败，请重试。");
-        } finally {
-            btn.disabled = false;
-            btn.innerText = "提交回执";
-        }
+        if (res.ok) alert("提交成功！感谢您的回复。");
+        else alert("保存失败，请重试。");
     }
 </script>
-
 </body>
 </html>
