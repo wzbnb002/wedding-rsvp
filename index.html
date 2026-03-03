@@ -47,15 +47,16 @@
         .event-banner .loc { font-size: 0.75rem; color: #999; margin-top: 2px; display: block; }
 
         .card { 
-            width: 92%; 
-            max-width: 800px;   /* ✅ widened */
+            width: 92%; max-width: 450px; 
             background: rgba(255, 255, 255, 0.98); 
-            padding: 35px 20px; 
-            border-radius: 30px; 
+            padding: 35px 20px; border-radius: 30px; 
             box-shadow: 0 15px 40px rgba(193, 154, 107, 0.12); 
-            text-align: center; 
-            margin-top: 80px; 
-            margin-bottom: 40px;
+            text-align: center; margin-top: 80px; margin-bottom: 40px;
+        }
+
+        /* Admin mode wider layout */
+        .admin-mode .card {
+            max-width: 900px;
         }
         
         .ch-title { font-size: 1.6rem; font-weight: 600; letter-spacing: 3px; color: #333; margin-top: 5px; }
@@ -125,10 +126,38 @@
         }
 
         /* Admin Table Styles */
-        .admin-wrap { width: 100%; overflow-x: auto; margin-top: 20px; border-radius: 15px; }
-        .guest-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; min-width: 450px; }
-        .guest-table th { text-align: left; color: var(--primary); padding: 10px 5px; border-bottom: 1px solid #eee; }
-        .guest-table td { padding: 12px 5px; border-bottom: 1px solid #fafafa; }
+        .guest-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            font-size: 0.85rem;
+        }
+
+        .guest-table th,
+        .guest-table td {
+            padding: 12px 8px;
+            text-align: left;
+        }
+
+        /* Explicit column widths */
+        .guest-table th:nth-child(1),
+        .guest-table td:nth-child(1) {
+            width: 20%;
+        }
+
+        .guest-table th:nth-child(2),
+        .guest-table td:nth-child(2) {
+            width: 15%;
+        }
+
+        .guest-table th:nth-child(3),
+        .guest-table td:nth-child(3) {
+            width: 30%;
+        }
+
+        .guest-table th:nth-child(4),
+        .guest-table td:nth-child(4) {
+            width: 35%;
+        }
         
         /* Restored status tags with backgrounds */
         .tag { padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 0.7rem; }
@@ -287,6 +316,8 @@
     }
 
     async function loadAdmin() {
+        document.body.classList.add('admin-mode'); // ← ADD THIS
+
         const res = await fetch(`/api/rsvp?admin=true`);
         const allData = await res.json();
         document.getElementById('step1').classList.add('hidden');
