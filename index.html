@@ -10,7 +10,6 @@
     <meta property="og:title" content="王振邦 & 何婧昱 婚礼邀约">
     <meta property="og:description" content="期待与您共同见证我们的幸福时刻">
     <meta property="og:image" content="https://wedding-rsvp-c4m.pages.dev/wedding_pic_1.jpg">
-    <meta name="twitter:card" content="summary_large_image">
 
     <style>
         :root {
@@ -19,7 +18,9 @@
             --text: #58514a;
             --white: #ffffff;
             --tag-yes: #eef5e9;
+            --tag-yes-text: #6b8e23;
             --tag-no: #fdf0f0;
+            --tag-no-text: #cc6666;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -72,7 +73,6 @@
             appearance: none; -webkit-appearance: none;
         }
 
-        /* Fix for mobile date display */
         .date-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         @media (max-width: 380px) { .date-grid { grid-template-columns: 1fr; } }
 
@@ -86,9 +86,9 @@
         
         .custom-check { 
             width: 24px; height: 24px; border-radius: 50%; border: 2px solid #ddd; 
-            display: flex; align-items: center; justify-content: center; font-size: 14px;
+            display: flex; align-items: center; justify-content: center;
         }
-        .active .custom-check { background: var(--primary); border-color: var(--primary); color: white; }
+        .active .custom-check { border-color: var(--primary); }
 
         button { 
             width: 100%; height: 52px; background: var(--primary); color: white; 
@@ -96,10 +96,16 @@
             margin-top: 10px; cursor: pointer;
         }
 
+        /* Admin Table Styles */
         .admin-wrap { width: 100%; overflow-x: auto; margin-top: 20px; border-radius: 15px; }
-        .guest-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; min-width: 400px; }
+        .guest-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; min-width: 450px; }
         .guest-table th { text-align: left; color: var(--primary); padding: 10px 5px; border-bottom: 1px solid #eee; }
         .guest-table td { padding: 12px 5px; border-bottom: 1px solid #fafafa; }
+        
+        /* Restored status tags with backgrounds */
+        .tag { padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 0.7rem; }
+        .tag-yes { background: var(--tag-yes); color: var(--tag-yes-text); }
+        .tag-no { background: var(--tag-no); color: var(--tag-no-text); }
 
         .hidden { display: none; }
         .fade-in { animation: fadeIn 0.4s ease-out; }
@@ -110,7 +116,7 @@
 
 <div class="event-banner">
     <span class="date">2026年06月21日</span>
-    <span class="loc">辽阳省沈阳市沈河区北站一路43号 · 万豪酒店</span>
+    <span class="loc">辽宁省沈阳市沈河区北站一路43号 · 万豪酒店</span>
 </div>
 
 <div class="card fade-in">
@@ -147,10 +153,10 @@
 
             <div id="hotelCard" class="hotel-toggle-card" onclick="toggleHotel()">
                 <div style="text-align:left">
-                    <span style="font-weight:600; color:var(--primary); display:block">需要安排酒店住宿</span>
+                    <span style="font-weight:600; color:var(--primary); display:block">是否需要安排酒店住宿</span>
                     <span style="font-size:0.7rem; color:#999">我们将为您预订酒店客房</span>
                 </div>
-                <div class="custom-check">✓</div>
+                <div class="custom-check"></div>
                 <input type="checkbox" id="hotel" class="hidden">
             </div>
 
@@ -181,7 +187,7 @@
         </div>
         <div class="admin-wrap">
             <table class="guest-table">
-                <thead><tr><th>姓名</th><th>状态</th><th>人数/房</th><th>备注</th></tr></thead>
+                <thead><tr><th>姓名</th><th>状态</th><th>人数/房</th><th>住宿周期</th></tr></thead>
                 <tbody id="adminTableBody"></tbody>
             </table>
         </div>
@@ -263,11 +269,16 @@
         allData.forEach(item => {
             if(item.coming) p += item.people;
             if(item.needsHotel) r += item.roomCount;
+            
+            const startDate = item.startDate ? item.startDate.split('-').slice(1).join('/') : '';
+            const endDate = item.endDate ? item.endDate.split('-').slice(1).join('/') : '';
+            const cycleText = item.needsHotel ? (startDate + ' - ' + endDate) : '-';
+
             tbody.innerHTML += `<tr>
                 <td><b>${item.name}</b></td>
-                <td>${item.coming?'出席':'不出席'}</td>
-                <td>${item.coming ? (item.people+'人/'+(item.needsHotel?item.roomCount+'房':'无')) : '-'}</td>
-                <td><small>${item.needsHotel ? item.startDate.split('-').slice(1).join('/') : '-'}</small></td>
+                <td><span class="tag ${item.coming ? 'tag-yes' : 'tag-no'}">${item.coming?'出席':'不出席'}</span></td>
+                <td>${item.coming ? (item.people+'人 / '+(item.needsHotel?item.roomCount+'房':'无房')) : '-'}</td>
+                <td>${cycleText}</td>
             </tr>`;
         });
         document.getElementById('statPeople').innerText = p;
