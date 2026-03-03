@@ -2,87 +2,226 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>婚礼回执</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>我们的婚礼回执</title>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #f4f4f9; display: flex; justify-content: center; padding: 20px; }
-        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 350px; }
-        h2 { color: #5a5a5a; text-align: center; }
-        input, select, button { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; font-size: 16px; }
-        button { background: #8b5cf6; color: white; border: none; font-weight: bold; cursor: pointer; }
+        :root {
+            --primary: #d4a373; 
+            --secondary: #faedcd;
+            --text: #58514a;
+            --bg: #fefae0;
+            --white: #ffffff;
+        }
+
+        /* Basic Reset */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Segoe UI", Roboto, sans-serif;
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            /* Prevents rubber-banding on iOS */
+            overflow-x: hidden; 
+        }
+
+        .container {
+            width: 95%; /* Responsive width for small screens */
+            max-width: 420px;
+            background: var(--white);
+            padding: 30px 20px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(212, 163, 115, 0.15);
+            text-align: center;
+            margin: 20px;
+            position: relative;
+        }
+
+        /* Decorative elements for a wedding feel */
+        .container::before {
+            content: "♥";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg);
+            color: var(--primary);
+            padding: 0 15px;
+            font-size: 24px;
+        }
+
+        h1 { 
+            font-weight: 300; 
+            letter-spacing: 4px; 
+            margin: 10px 0 5px 0; 
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+
+        h2 { 
+            font-weight: 300; 
+            font-size: 0.9rem; 
+            margin-bottom: 30px; 
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.6;
+        }
+
+        .input-group { margin-bottom: 20px; text-align: left; }
+        label { display: block; font-size: 0.85rem; margin-bottom: 8px; font-weight: 600; color: #888; }
+
+        /* Larger touch targets for mobile fingers */
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            height: 50px; /* Tall enough for easy tapping */
+            padding: 0 15px;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            font-size: 16px; /* Prevents iOS auto-zoom on focus */
+            background: #fdfdfd;
+            appearance: none; /* Removes default styling */
+        }
+
+        input:focus { outline: none; border-color: var(--primary); background: #fff; }
+
+        button {
+            width: 100%;
+            height: 55px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(212, 163, 115, 0.3);
+        }
+
+        button:active { transform: scale(0.96); opacity: 0.9; }
+
+        .checkbox-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .checkbox-card input { width: 22px; height: 22px; accent-color: var(--primary); }
+
         .hidden { display: none; }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Tablet and Desktop adjustments */
+        @media (min-width: 768px) {
+            .container { padding: 50px 40px; }
+            h1 { font-size: 2.2rem; }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>婚礼庆典回执</h2>
-    
-    <div id="loginSection">
-        <input type="text" id="nameInput" placeholder="请输入您的姓名">
-        <button onclick="loadRSVP()">查询 / 进入</button>
+<div class="container fade-in">
+    <h1>诚邀光临</h1>
+    <h2>Our Wedding Celebration</h2>
+
+    <div id="step1">
+        <div class="input-group">
+            <label>请确认您的姓名</label>
+            <input type="text" id="nameInput" placeholder="请输入姓名..." autocomplete="off">
+        </div>
+        <button onclick="handleCheck()">确认并继续</button>
     </div>
 
-    <div id="formSection" class="hidden">
-        <p>您好, <strong id="userDisp"></strong></p>
-        <label>是否出席：</label>
-        <select id="attending">
-            <option value="yes">出席</option>
-            <option value="no">不出席</option>
-        </select>
+    <div id="step2" class="hidden">
+        <p style="font-size: 1.1rem;">欢迎您, <strong id="userName" style="color:var(--primary)"></strong></p>
         
-        <label>随行人数：</label>
-        <input type="number" id="count" value="1" min="1">
-        
-        <label style="display:block; margin: 10px 0;">
-            <input type="checkbox" id="hotel" style="width:auto;"> 需要安排住宿
-        </label>
-        
-        <button id="saveBtn" onclick="saveRSVP()">提交更新</button>
+        <div class="input-group">
+            <label>您是否出席？</label>
+            <select id="attending">
+                <option value="yes">确认出席 Attend</option>
+                <option value="no">抱歉缺席 Decline</option>
+            </select>
+        </div>
+
+        <div id="detailsArea">
+            <div class="input-group">
+                <label>随行人数 (含本人)</label>
+                <input type="number" id="count" value="1" min="1" max="20">
+            </div>
+
+            <div class="checkbox-card">
+                <span style="font-size: 0.9rem; font-weight: 600;">需要为您安排住宿吗？</span>
+                <input type="checkbox" id="hotel">
+            </div>
+        </div>
+
+        <button id="saveBtn" onclick="handleSave()">提交回执</button>
+        <p id="msg" style="margin-top: 15px; font-size: 0.8rem; color: #aaa;"></p>
     </div>
 </div>
 
 <script>
     const clean = (n) => n.replace(/[\s\u3000]+/g, '');
 
-    async function loadRSVP() {
-        const name = clean(document.getElementById('nameInput').value);
-        if (!name) return alert("请先输入姓名");
+    // Auto-update UI based on attendance
+    document.getElementById('attending').addEventListener('change', (e) => {
+        const area = document.getElementById('detailsArea');
+        area.style.display = e.target.value === 'yes' ? 'block' : 'none';
+    });
+
+    async function handleCheck() {
+        const nameInput = document.getElementById('nameInput');
+        const name = clean(nameInput.value);
+        if (!name) return alert("请输入姓名");
 
         try {
-            // Using a relative path ensures it hits Cloudflare Pages, not the old Worker
             const res = await fetch(`/api/rsvp?name=${encodeURIComponent(name)}`);
             const data = await res.json();
 
-            document.getElementById('loginSection').classList.add('hidden');
-            document.getElementById('formSection').classList.remove('hidden');
-            document.getElementById('userDisp').innerText = name;
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.remove('hidden');
+            document.getElementById('step2').classList.add('fade-in');
+            document.getElementById('userName').innerText = name;
 
             if (!data.isNew) {
                 document.getElementById('attending').value = data.coming ? 'yes' : 'no';
-                document.getElementById('count').value = data.people;
-                document.getElementById('hotel').checked = data.needsHotel;
+                document.getElementById('count').value = data.people || 1;
+                document.getElementById('hotel').checked = data.needsHotel || false;
+                document.getElementById('msg').innerText = "您之前提交过，可以随时修改";
+                document.getElementById('attending').dispatchEvent(new Event('change'));
             }
-        } catch (e) {
-            alert("加载失败，请确保您是通过 Pages 域名访问的。");
-        }
+        } catch (e) { alert("网络错误，请稍后重试"); }
     }
 
-    async function saveRSVP() {
+    async function handleSave() {
         const name = clean(document.getElementById('nameInput').value);
+        const isComing = document.getElementById('attending').value === 'yes';
+        
         const payload = {
-            coming: document.getElementById('attending').value === 'yes',
-            people: parseInt(document.getElementById('count').value),
-            needsHotel: document.getElementById('hotel').checked
+            coming: isComing,
+            people: isComing ? parseInt(document.getElementById('count').value) : 0,
+            needsHotel: isComing ? document.getElementById('hotel').checked : false
         };
 
-        const res = await fetch(`/api/rsvp?name=${encodeURIComponent(name)}`, {
-            method: 'POST',
-            body: JSON.stringify(payload)
-        });
-
-        if (res.ok) alert("提交成功！感谢您的回复。");
-        else alert("保存失败，请重试。");
+        try {
+            const res = await fetch(`/api/rsvp?name=${encodeURIComponent(name)}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (res.ok) alert("提交成功！感谢您的回复。");
+        } catch (e) { alert("提交失败"); }
     }
 </script>
 </body>
