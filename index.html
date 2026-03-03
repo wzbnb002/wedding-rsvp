@@ -5,113 +5,219 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Zhenbang & Jingyu Wedding</title>
     <style>
-        :root { --primary: #d4a373; --bg: #fefae0; --text: #58514a; }
+        :root {
+            --primary: #c19a6b; 
+            --accent: #e8d5c4;  
+            --text: #4a4a4a;
+            --bg: #fffcf9;      
+            --white: #ffffff;
+            --success: #8a9a5b;
+        }
+
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { margin: 0; background-color: var(--bg); font-family: sans-serif; color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .container { width: 95%; max-width: 420px; background: white; padding: 40px 25px; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; }
-        h1 { color: var(--primary); font-size: 1.6rem; margin-bottom: 30px; line-height: 1.4; }
+
+        body {
+            margin: 0;
+            background-color: var(--bg);
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+
+        .card {
+            width: 92%;
+            max-width: 500px;
+            background: var(--white);
+            padding: 40px 25px;
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(193, 154, 107, 0.1);
+            text-align: center;
+            border: 1px solid rgba(193, 154, 107, 0.1);
+        }
+
+        .ornament { font-size: 24px; color: var(--primary); margin-bottom: 15px; display: block; }
+        h1 { font-weight: 300; letter-spacing: 2px; margin: 0; color: var(--primary); font-size: 1.5rem; }
+        .subtitle { font-size: 0.8rem; color: #999; text-transform: uppercase; margin-bottom: 30px; }
+
         .input-group { margin-bottom: 20px; text-align: left; }
-        label { display: block; font-size: 0.85rem; margin-bottom: 8px; font-weight: bold; color: #888; }
-        input, select { width: 100%; height: 45px; padding: 0 12px; border: 1px solid #eee; border-radius: 10px; font-size: 16px; background: #fafafa; }
-        .date-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        button { width: 100%; height: 50px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 1rem; font-weight: bold; margin-top: 20px; cursor: pointer; }
+        label { display: block; font-size: 0.85rem; margin-bottom: 8px; color: var(--primary); font-weight: 600; }
+
+        input, select {
+            width: 100%; height: 48px; padding: 0 15px; border: 1px solid #f0f0f0;
+            border-radius: 12px; font-size: 16px; background: #fafafa;
+        }
+
+        input:focus { outline: none; border-color: var(--primary); background: #fff; }
+
+        .checkbox-row {
+            display: flex; align-items: center; gap: 12px; margin: 20px 0;
+            padding: 15px; background: #fff9f4; border-radius: 12px; cursor: pointer;
+        }
+
+        button {
+            width: 100%; height: 54px; background: var(--primary); color: white;
+            border: none; border-radius: 15px; font-size: 1rem; font-weight: 600;
+            cursor: pointer; box-shadow: 0 10px 20px rgba(193, 154, 107, 0.2);
+        }
+
+        /* Admin Table Styles */
+        .admin-section { text-align: left; width: 100%; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: var(--accent); padding: 15px; border-radius: 12px; text-align: center; }
+        .stat-card small { display: block; font-size: 0.7rem; color: var(--primary); }
+        .stat-card span { font-size: 1.2rem; font-weight: bold; color: var(--text); }
+
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 10px; }
+        th { text-align: left; color: var(--primary); padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        td { padding: 10px 0; border-bottom: 1px dotted #f0f0f0; }
+        .status-dot { height: 8px; width: 8px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+        .dot-yes { background-color: var(--success); }
+        .dot-no { background-color: #ffb3b3; }
+
         .hidden { display: none; }
-        .fade-in { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .fade-in { animation: fadeIn 0.6s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Zhenbang & Jingyu<br>Wedding Celebration</h1>
+<div class="card">
+    <span class="ornament">✧ ❀ ✧</span>
+    <h1>Zhenbang & Jingyu</h1>
+    <div class="subtitle">Wedding Celebration</div>
 
     <div id="step1">
         <div class="input-group">
-            <label>请确认您的姓名</label>
-            <input type="text" id="nameInput" placeholder="请输入姓名">
+            <label>请输入您的姓名</label>
+            <input type="text" id="nameInput" placeholder="输入姓名">
         </div>
-        <button onclick="handleCheck()">确认身份</button>
+        <button onclick="handleLogin()">确认进入</button>
     </div>
 
-    <div id="step2" class="hidden">
+    <div id="rsvpStep" class="hidden fade-in">
         <p>您好, <strong id="userName"></strong></p>
-        
         <div class="input-group">
-            <label>是否出席</label>
+            <label>是否出席婚礼</label>
             <select id="attending">
                 <option value="yes">确认出席</option>
                 <option value="no">抱歉缺席</option>
             </select>
         </div>
-
         <div id="detailsArea">
             <div class="input-group">
                 <label>随行人数</label>
                 <input type="number" id="count" value="1" min="1">
             </div>
-
-            <div style="text-align: left; margin: 20px 0;">
-                <label style="display: flex; align-items: center; gap: 10px; color: var(--text);">
-                    <input type="checkbox" id="hotel" style="width: 20px; height: 20px;"> 需要安排住宿
-                </label>
+            <div class="checkbox-row" onclick="document.getElementById('hotel').click()">
+                <input type="checkbox" id="hotel">
+                <span style="font-size: 0.9rem;">需要安排住宿</span>
             </div>
-
-            <div id="hotelDates" class="hidden fade-in">
-                <div class="date-row">
-                    <div class="input-group">
-                        <label>入住日期</label>
-                        <input type="date" id="startDate">
-                    </div>
-                    <div class="input-group">
-                        <label>退房日期</label>
-                        <input type="date" id="endDate">
-                    </div>
+            <div id="hotelDates" class="hidden">
+                <div class="input-group">
+                    <label>所需房间数量</label>
+                    <input type="number" id="roomCount" value="1" min="1">
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                    <div class="input-group"><label>入住</label><input type="date" id="startDate"></div>
+                    <div class="input-group"><label>退房</label><input type="date" id="endDate"></div>
                 </div>
             </div>
         </div>
-
         <button onclick="handleSave()">提交回执</button>
-        <p id="msg" style="font-size: 0.8rem; color: #aaa; margin-top: 10px;"></p>
+    </div>
+
+    <div id="adminStep" class="hidden fade-in">
+        <div class="admin-section">
+            <h3 style="color:var(--primary); text-align:center;">数据统计面板</h3>
+            <div class="stats-grid">
+                <div class="stat-card"><small>确认出席</small><span id="statPeople">0</span> 人</div>
+                <div class="stat-card"><small>所需房间</small><span id="statRooms">0</span> 间</div>
+            </div>
+            <div style="max-height: 400px; overflow-y: auto;">
+                <table>
+                    <thead>
+                        <tr><th>姓名</th><th>人数</th><th>住宿</th><th>房/晚</th></tr>
+                    </thead>
+                    <tbody id="adminTableBody"></tbody>
+                </table>
+            </div>
+            <button style="margin-top:20px; background:#f4f4f4; color:#666;" onclick="location.reload()">退出管理</button>
+        </div>
     </div>
 </div>
 
 <script>
     const clean = (n) => n.replace(/[\s\u3000]+/g, '');
 
-    // Toggle Details Area
-    document.getElementById('attending').addEventListener('change', (e) => {
+    document.getElementById('attending').addEventListener('change', e => {
         document.getElementById('detailsArea').style.display = e.target.value === 'yes' ? 'block' : 'none';
     });
-
-    // Toggle Hotel Dates
-    document.getElementById('hotel').addEventListener('change', (e) => {
+    document.getElementById('hotel').addEventListener('change', e => {
         document.getElementById('hotelDates').style.display = e.target.checked ? 'block' : 'none';
     });
 
-    async function handleCheck() {
-        const name = clean(document.getElementById('nameInput').value);
-        if (!name) return alert("请输入姓名");
+    async function handleLogin() {
+        const nameInput = document.getElementById('nameInput').value.trim();
+        const cleanName = clean(nameInput);
+        if (!cleanName) return alert("请输入姓名");
 
-        const res = await fetch(`/api/rsvp?name=${encodeURIComponent(name)}`);
+        // ADMIN CHECK
+        if (cleanName.toLowerCase() === 'zhenbang' || cleanName.toLowerCase() === 'jingyu') {
+            loadAdminDashboard();
+            return;
+        }
+
+        // NORMAL GUEST CHECK
+        const res = await fetch(`/api/rsvp?name=${encodeURIComponent(cleanName)}`);
         const data = await res.json();
-
+        
         document.getElementById('step1').classList.add('hidden');
-        document.getElementById('step2').classList.remove('hidden');
-        document.getElementById('step2').classList.add('fade-in');
-        document.getElementById('userName').innerText = name;
+        document.getElementById('rsvpStep').classList.remove('hidden');
+        document.getElementById('userName').innerText = cleanName;
 
         if (!data.isNew) {
             document.getElementById('attending').value = data.coming ? 'yes' : 'no';
             document.getElementById('count').value = data.people || 1;
             document.getElementById('hotel').checked = data.needsHotel || false;
+            document.getElementById('roomCount').value = data.roomCount || 1;
             document.getElementById('startDate').value = data.startDate || '';
             document.getElementById('endDate').value = data.endDate || '';
-            
-            // Trigger UI updates
             document.getElementById('attending').dispatchEvent(new Event('change'));
             document.getElementById('hotel').dispatchEvent(new Event('change'));
-            document.getElementById('msg').innerText = "提示：您之前已提交过，可以进行修改";
         }
+    }
+
+    async function loadAdminDashboard() {
+        const res = await fetch(`/api/rsvp?admin=true`); // We will update backend to list all
+        const allData = await res.json();
+        
+        document.getElementById('step1').classList.add('hidden');
+        document.getElementById('adminStep').classList.remove('hidden');
+
+        let totalPeople = 0;
+        let totalRooms = 0;
+        const tbody = document.getElementById('adminTableBody');
+        tbody.innerHTML = '';
+
+        allData.forEach(item => {
+            if (item.coming) totalPeople += item.people;
+            if (item.needsHotel) totalRooms += item.roomCount;
+
+            const row = `<tr>
+                <td><span class="status-dot ${item.coming?'dot-yes':'dot-no'}"></span>${item.name}</td>
+                <td>${item.coming ? item.people : '-'}</td>
+                <td>${item.needsHotel ? '需' : '-'}</td>
+                <td>${item.needsHotel ? (item.roomCount + '间') : '-'}</td>
+            </tr>`;
+            tbody.innerHTML += row;
+        });
+
+        document.getElementById('statPeople').innerText = totalPeople;
+        document.getElementById('statRooms').innerText = totalRooms;
     }
 
     async function handleSave() {
@@ -120,19 +226,20 @@
         const needsHotel = document.getElementById('hotel').checked;
 
         const payload = {
+            name: name, // Store name inside object for admin listing
             coming: isComing,
             people: isComing ? parseInt(document.getElementById('count').value) : 0,
             needsHotel: isComing && needsHotel,
+            roomCount: isComing && needsHotel ? parseInt(document.getElementById('roomCount').value) : 0,
             startDate: isComing && needsHotel ? document.getElementById('startDate').value : '',
             endDate: isComing && needsHotel ? document.getElementById('endDate').value : ''
         };
 
-        const res = await fetch(`/api/rsvp?name=${encodeURIComponent(name)}`, {
+        await fetch(`/api/rsvp?name=${encodeURIComponent(name)}`, {
             method: 'POST',
             body: JSON.stringify(payload)
         });
-
-        if (res.ok) alert("提交成功！祝您生活愉快！");
+        alert("提交成功！祝您生活愉快！");
     }
 </script>
 </body>

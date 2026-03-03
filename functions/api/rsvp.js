@@ -1,10 +1,21 @@
 export async function onRequest(context) {
   const { request, env } = context;
   const url = new URL(request.url);
-  const rawName = url.searchParams.get("name") || "";
-  const cleanName = rawName.replace(/[\s\u3000]+/g, '');
+  const name = url.searchParams.get("name") || "";
+  const isAdmin = url.searchParams.get("admin") === "true";
 
-  if (!cleanName) return new Response(JSON.stringify({ error: "Name required" }), { status: 400 });
+  // ADMIN VIEW: Return all guests
+  if (isAdmin && request.method === "GET") {
+    const list = await env.WEDDING_RSVP.list();
+    const results = await Promise.all(
+      list.keys.map(key => env.WEDDING_RSVP.get(key.name, { type: "json" }))
+    );
+    return new Response(JSON.stringify(results), {
+      headers: { "Content-Type": "application/json" }
+    });
+  }
+
+  const cleanName = name.replace(/[\s\u3000]+/g, '');
 
   if (request.method === "GET") {
     const data = await env.WEDDING_RSVP.get(cleanName);
