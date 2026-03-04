@@ -1,5 +1,5 @@
 /* ============================= */
-/* FULL SCREEN OVERLAY */
+/* FULL SCREEN OVERLAY           */
 /* ============================= */
 
 #photo-rain-container {
@@ -23,7 +23,7 @@
 
 
 /* ============================= */
-/* CENTER MESSAGE */
+/* CENTER MESSAGE                */
 /* ============================= */
 
 .success-message-wrapper {
@@ -31,7 +31,6 @@
     text-align: center;
     z-index: 2500;
     width: 100%;
-    padding: 20px 20px 10px 20px;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
@@ -40,9 +39,7 @@
 }
 
 .success-title {
-    font-size: 2.2rem;
     font-weight: 700;
-    letter-spacing: 6px;
     color: var(--primary);
     margin-bottom: 4px;
     text-shadow: 0 2px 8px rgba(218, 165, 32, 0.15);
@@ -50,14 +47,11 @@
 }
 
 .success-subtitle {
-    font-size: 1rem;
     color: #a0a0a0;
-    letter-spacing: 3px;
     font-weight: 300;
     font-family: 'SimSun', 'Microsoft YaHei', serif;
 }
 
-/* Smooth fade in */
 .text-fade-in {
     opacity: 0;
     animation: fadeText 1.5s ease forwards;
@@ -65,19 +59,13 @@
 }
 
 @keyframes fadeText {
-    0% {
-        opacity: 0;
-        transform: translateY(-15px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    0%  { opacity: 0; transform: translateY(-15px); }
+    to  { opacity: 1; transform: translateY(0); }
 }
 
 
 /* ============================= */
-/* PHOTO GRID BACKGROUND */
+/* PHOTO GRID                    */
 /* ============================= */
 
 .fixed-photo-grid {
@@ -86,12 +74,8 @@
     width: 100%;
     overflow: visible;
     z-index: 1200;
-    /* Explicit min-height so % positions on children resolve correctly */
     min-height: 0;
 }
-
-
-/* Photo Styling */
 
 .scatter-photo {
     position: absolute;
@@ -101,30 +85,16 @@
     border-radius: 4px;
     opacity: 0;
     cursor: pointer;
-
     transform: scale(0.3) rotate(var(--rot));
     animation: landPhoto 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-
-/* Animation */
-
 @keyframes landPhoto {
-    0% {
-        opacity: 0;
-        transform: scale(0.2) rotate(calc(var(--rot) - 25deg));
-    }
-    60% { opacity: 1; }
-    100% {
-        opacity: 1;
-        transform: scale(1) rotate(var(--rot));
-    }
+    0%   { opacity: 0; transform: scale(0.2) rotate(calc(var(--rot) - 25deg)); }
+    60%  { opacity: 1; }
+    100% { opacity: 1; transform: scale(1) rotate(var(--rot)); }
 }
-
-
-/* Hover effect */
 
 .scatter-photo:hover {
     transform: scale(1.08) rotate(var(--rot)) !important;
@@ -133,137 +103,146 @@
 }
 
 
-/* ============================= */
-/* MOBILE (< 768px) */
-/* ============================= */
+/* ===================================================== */
+/* MOBILE  (portrait phones, max-width: 767px)           */
+/*                                                       */
+/* KEY INSIGHT: on portrait mobile, height >> width,     */
+/* so we use vw for X (columns) and vh for Y (rows).     */
+/*                                                       */
+/* Header is ~12vh tall. Remaining photo area ≈ 88vh.    */
+/* 3 rows must fit in 88vh  →  each row slot = ~29vh.    */
+/*                                                       */
+/* Photo size: 30vw wide × 28vh tall  (rectangular,      */
+/* fills both axes). Half-w = 15vw, half-h = 14vh.       */
+/*                                                       */
+/* 3 columns (each 33.33vw):                             */
+/*   Col centres: 16.66vw, 50vw, 83.33vw                 */
+/*   Left values: 1.66vw,  35vw, 68.33vw                 */
+/*                                                       */
+/* 3 rows (each 29vh, starting from 0 in grid area):     */
+/*   Row tops: 0vh, 29vh, 58vh                           */
+/*                                                       */
+/* 4 overlap photos at the 4 inner intersections:        */
+/*   X seams: 33.33vw − 15vw = 18.33vw                   */
+/*            66.66vw − 15vw = 51.66vw                   */
+/*   Y seams: 14.5vh (mid rows 1↔2)                      */
+/*            43.5vh (mid rows 2↔3)                      */
+/* ===================================================== */
 
 @media (max-width: 767px) {
     .success-message-wrapper {
-        padding: 15px 20px 8px 20px;
+        padding: 10px 20px 6px;
     }
-
     .success-title {
         font-size: 1.8rem;
         letter-spacing: 4px;
         margin-bottom: 2px;
     }
-
     .success-subtitle {
         font-size: 0.9rem;
         letter-spacing: 2px;
     }
 
-    /* Bigger photos on mobile for a lush, full feel */
     .scatter-photo {
-        width: 130px;
-        height: 130px;
-        padding: 6px;
+        width: 30vw;
+        height: 28vh;
+        padding: 4px;
     }
 
-    /*
-     * 3×3 grid fills the screen (130px photos on ~390px wide screen)
-     * then 4 "bridge" photos sit exactly at the seam between neighbouring
-     * grid tiles — this creates visible overlapping.
-     * Using px so positions don't depend on parent's computed height.
-     */
-
     /* Row 1 */
-    .scatter-photo:nth-child(1)  { top: 5px;   left: 5px;               z-index: 1; }
-    .scatter-photo:nth-child(2)  { top: 5px;   left: calc(50% - 65px);  z-index: 1; }
-    .scatter-photo:nth-child(3)  { top: 5px;   right: 5px;              z-index: 1; }
+    .scatter-photo:nth-child(1)  { top: 0;      left: 1.66vw;  z-index: 1; }
+    .scatter-photo:nth-child(2)  { top: 0;      left: 35vw;    z-index: 1; }
+    .scatter-photo:nth-child(3)  { top: 0;      left: 68.33vw; z-index: 1; }
 
     /* Row 2 */
-    .scatter-photo:nth-child(4)  { top: 140px; left: 5px;               z-index: 1; }
-    .scatter-photo:nth-child(5)  { top: 140px; left: calc(50% - 65px);  z-index: 1; }
-    .scatter-photo:nth-child(6)  { top: 140px; right: 5px;              z-index: 1; }
+    .scatter-photo:nth-child(4)  { top: 29vh;   left: 1.66vw;  z-index: 1; }
+    .scatter-photo:nth-child(5)  { top: 29vh;   left: 35vw;    z-index: 1; }
+    .scatter-photo:nth-child(6)  { top: 29vh;   left: 68.33vw; z-index: 1; }
 
     /* Row 3 */
-    .scatter-photo:nth-child(7)  { top: 275px; left: 5px;               z-index: 1; }
-    .scatter-photo:nth-child(8)  { top: 275px; left: calc(50% - 65px);  z-index: 1; }
-    .scatter-photo:nth-child(9)  { top: 275px; right: 5px;              z-index: 1; }
+    .scatter-photo:nth-child(7)  { top: 58vh;   left: 1.66vw;  z-index: 1; }
+    .scatter-photo:nth-child(8)  { top: 58vh;   left: 35vw;    z-index: 1; }
+    .scatter-photo:nth-child(9)  { top: 58vh;   left: 68.33vw; z-index: 1; }
 
-    /* Overlap photos — bridging the seam between adjacent grid tiles */
-    .scatter-photo:nth-child(10) { top: 75px;  left: calc(25% - 65px);  z-index: 5; }
-    .scatter-photo:nth-child(11) { top: 75px;  left: calc(75% - 65px);  z-index: 5; }
-    .scatter-photo:nth-child(12) { top: 210px; left: calc(25% - 65px);  z-index: 5; }
-    .scatter-photo:nth-child(13) { top: 210px; left: calc(75% - 65px);  z-index: 5; }
+    /* Overlap at inner intersections */
+    .scatter-photo:nth-child(10) { top: 14.5vh; left: 18.33vw; z-index: 5; }
+    .scatter-photo:nth-child(11) { top: 14.5vh; left: 51.66vw; z-index: 5; }
+    .scatter-photo:nth-child(12) { top: 43.5vh; left: 18.33vw; z-index: 5; }
+    .scatter-photo:nth-child(13) { top: 43.5vh; left: 51.66vw; z-index: 5; }
 }
 
 
-/* ============================= */
-/* DESKTOP (≥ 768px) */
-/* ============================= */
+/* ===================================================== */
+/* DESKTOP  (landscape / wide screens, min-width: 768px) */
+/*                                                       */
+/* On landscape, width >> height, so we use vw for both  */
+/* axes — columns AND rows — since vw is the constraint. */
+/*                                                       */
+/* Header ~10vh. Photo area ≈ 90vh ≈ (90/56.25)×vw      */
+/* On a 16:9 screen: 90vh = 90/56.25 × 100vw ≈ 160vw    */
+/* 3 rows × 22vw = 66vw tall — fits comfortably.         */
+/*                                                       */
+/* Photo: 22vw × 22vw. Half = 11vw.                     */
+/*                                                       */
+/* 3 columns (each 33.33vw):                             */
+/*   Col centres: 16.66vw, 50vw, 83.33vw                 */
+/*   Left values:  5.66vw, 39vw, 72.33vw                 */
+/*                                                       */
+/* 3 rows (each 22vw):                                   */
+/*   Row tops: 0, 22vw, 44vw                             */
+/*                                                       */
+/* 4 overlap photos at the 4 inner intersections:        */
+/*   X seams: 33.33vw − 11vw = 22.33vw                   */
+/*            66.66vw − 11vw = 55.66vw                   */
+/*   Y seams: 11vw (mid rows 1↔2)                        */
+/*            33vw (mid rows 2↔3)                        */
+/* ===================================================== */
 
 @media (min-width: 768px) {
     .success-message-wrapper {
-        padding: 30px 20px 20px 20px;
+        padding: 30px 20px 20px;
     }
-
     .success-title {
         font-size: 2.8rem;
         letter-spacing: 8px;
         margin-bottom: 8px;
     }
-
     .success-subtitle {
         font-size: 1.15rem;
         letter-spacing: 4px;
     }
 
     .scatter-photo {
-        width: 200px;
-        height: 200px;
-        padding: 10px;
+        width: 22vw;
+        height: 22vw;
+        padding: 0.8vw;
     }
 
-    /*
-     * STRATEGY: 3 columns evenly at 0%, 33%, 66% of the container width.
-     * All use "left" (no "right") so they're consistent and predictable.
-     * Photos are 200px wide; half = 100px for centering within each column slot.
-     *
-     * Col 1 anchor: left = -20px          (bleeds off left edge)
-     * Col 2 anchor: left = calc(50% - 100px)  (true centre)
-     * Col 3 anchor: left = calc(100% - 180px) (bleeds off right edge)
-     *
-     * Rows spaced 180px apart, starting at top: 0.
-     * 4 overlap photos sit at the mid-points between adjacent columns AND rows.
-     */
-
     /* Row 1 */
-    .scatter-photo:nth-child(1) { top: 0;     left: -20px;                     z-index: 1; }
-    .scatter-photo:nth-child(2) { top: 0;     left: calc(50% - 100px);         z-index: 1; }
-    .scatter-photo:nth-child(3) { top: 0;     left: calc(100% - 180px);        z-index: 1; }
+    .scatter-photo:nth-child(1)  { top: 0;     left: 5.66vw;  z-index: 1; }
+    .scatter-photo:nth-child(2)  { top: 0;     left: 39vw;    z-index: 1; }
+    .scatter-photo:nth-child(3)  { top: 0;     left: 72.33vw; z-index: 1; }
 
     /* Row 2 */
-    .scatter-photo:nth-child(4) { top: 190px; left: -20px;                     z-index: 1; }
-    .scatter-photo:nth-child(5) { top: 190px; left: calc(50% - 100px);         z-index: 1; }
-    .scatter-photo:nth-child(6) { top: 190px; left: calc(100% - 180px);        z-index: 1; }
+    .scatter-photo:nth-child(4)  { top: 22vw;  left: 5.66vw;  z-index: 1; }
+    .scatter-photo:nth-child(5)  { top: 22vw;  left: 39vw;    z-index: 1; }
+    .scatter-photo:nth-child(6)  { top: 22vw;  left: 72.33vw; z-index: 1; }
 
     /* Row 3 */
-    .scatter-photo:nth-child(7) { top: 380px; left: -20px;                     z-index: 1; }
-    .scatter-photo:nth-child(8) { top: 380px; left: calc(50% - 100px);         z-index: 1; }
-    .scatter-photo:nth-child(9) { top: 380px; left: calc(100% - 180px);        z-index: 1; }
+    .scatter-photo:nth-child(7)  { top: 44vw;  left: 5.66vw;  z-index: 1; }
+    .scatter-photo:nth-child(8)  { top: 44vw;  left: 39vw;    z-index: 1; }
+    .scatter-photo:nth-child(9)  { top: 44vw;  left: 72.33vw; z-index: 1; }
 
-    /*
-     * Overlap photos: centred between col1↔col2 and col2↔col3 horizontally,
-     * and between row1↔row2 and row2↔row3 vertically.
-     *
-     * Horizontal midpoints:
-     *   Between col1 (centre ≈ 80px) and col2 (centre = 50%)  → ~25% - 100px
-     *   Between col2 (centre = 50%) and col3 (centre ≈ 100%-80px) → ~75% - 100px
-     * Vertical midpoints:
-     *   Between row1 (top 0) and row2 (top 190px) → top: 95px
-     *   Between row2 (top 190) and row3 (top 380px) → top: 285px
-     */
-    .scatter-photo:nth-child(10) { top: 95px;  left: calc(25% - 100px);        z-index: 5; }
-    .scatter-photo:nth-child(11) { top: 95px;  left: calc(75% - 100px);        z-index: 5; }
-    .scatter-photo:nth-child(12) { top: 285px; left: calc(25% - 100px);        z-index: 5; }
-    .scatter-photo:nth-child(13) { top: 285px; left: calc(75% - 100px);        z-index: 5; }
+    /* Overlap at inner intersections */
+    .scatter-photo:nth-child(10) { top: 11vw;  left: 22.33vw; z-index: 5; }
+    .scatter-photo:nth-child(11) { top: 11vw;  left: 55.66vw; z-index: 5; }
+    .scatter-photo:nth-child(12) { top: 33vw;  left: 22.33vw; z-index: 5; }
+    .scatter-photo:nth-child(13) { top: 33vw;  left: 55.66vw; z-index: 5; }
 }
 
 
 /* ============================= */
-/* MODAL */
+/* MODAL                         */
 /* ============================= */
 
 #photo-modal {
@@ -294,14 +273,8 @@
 }
 
 @keyframes modalZoom {
-    from {
-        opacity: 0;
-        transform: scale(0.7);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+    from { opacity: 0; transform: scale(0.7); }
+    to   { opacity: 1; transform: scale(1); }
 }
 
 .modal-hint {
