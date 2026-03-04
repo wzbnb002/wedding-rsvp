@@ -2,15 +2,10 @@
 
 function triggerPhotoRain() {
 
-    // Prevent duplicate overlay
     if (document.getElementById('photo-rain-container')) return;
 
     const container = document.createElement('div');
     container.id = 'photo-rain-container';
-
-    /* ========================= */
-    /* MESSAGE CENTER */
-    /* ========================= */
 
     const messageWrapper = document.createElement('div');
     messageWrapper.className = 'success-message-wrapper text-fade-in';
@@ -27,27 +22,45 @@ function triggerPhotoRain() {
     messageWrapper.appendChild(subtitle);
     container.appendChild(messageWrapper);
 
-    /* ========================= */
-    /* PHOTO GRID */
-    /* ========================= */
-
     const grid = document.createElement('div');
     grid.className = 'fixed-photo-grid';
     container.appendChild(grid);
 
-    const totalPhotos = 9;
-    const dropDelay = 0.12;
+    // Photo positions: [top%, left%, zIndex]
+    const positions = [
+        // Row 1
+        { top: '0%', left: '0%', z: 1 },      // 1
+        { top: '0%', left: '33%', z: 1 },     // 2
+        { top: '0%', left: '66%', z: 1 },     // 3
+        // Row 2
+        { top: '33%', left: '0%', z: 1 },     // 4
+        { top: '33%', left: '33%', z: 1 },    // 5
+        { top: '33%', left: '66%', z: 1 },    // 6
+        // Row 3
+        { top: '66%', left: '0%', z: 1 },     // 7
+        { top: '66%', left: '33%', z: 1 },    // 8
+        { top: '66%', left: '66%', z: 1 },    // 9
+        // Overlapping photos
+        { top: '16%', left: '16%', z: 5 },    // 10 - intersection of 1,2,4,5
+        { top: '16%', left: '49%', z: 5 },    // 11 - intersection of 2,3,5,6
+        { top: '49%', left: '16%', z: 5 },    // 12 - intersection of 4,5,7,8
+        { top: '49%', left: '49%', z: 5 },    // 13 - intersection of 5,6,8,9
+    ];
 
-    for (let i = 1; i <= totalPhotos; i++) {
+    const totalPhotos = 13;
+    const dropDelay = 0.1;
 
+    for (let i = 0; i < totalPhotos; i++) {
         const img = document.createElement('img');
-        img.src = `image/photo_${i}.jpg`;
+        img.src = `image/photo_${(i % 9) + 1}.jpg`;
         img.className = 'scatter-photo';
 
         const rot = (Math.random() - 0.5) * 24;
         img.style.setProperty('--rot', `${rot}deg`);
-
-        img.style.animationDelay = `${(i - 1) * dropDelay}s`;
+        img.style.top = positions[i].top;
+        img.style.left = positions[i].left;
+        img.style.zIndex = positions[i].z;
+        img.style.animationDelay = `${i * dropDelay}s`;
 
         img.onclick = (e) => {
             e.stopPropagation();
@@ -56,10 +69,6 @@ function triggerPhotoRain() {
 
         grid.appendChild(img);
     }
-
-    /* ========================= */
-    /* MODAL */
-    /* ========================= */
 
     const modal = document.createElement('div');
     modal.id = 'photo-modal';
