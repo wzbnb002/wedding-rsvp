@@ -1,18 +1,16 @@
-/* Container overlaying the whole screen */
+/* ============================= */
+/* FULL SCREEN OVERLAY */
+/* ============================= */
+
 #photo-rain-container {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     z-index: 1000;
     pointer-events: none;
-    background: rgba(255, 252, 249, 0.95);
-    backdrop-filter: blur(8px);
+    background: rgba(255, 252, 249, 0.96);
+    backdrop-filter: blur(6px);
     opacity: 0;
-    transition: opacity 0.5s ease;
-    display: flex;
-    flex-direction: column;
+    transition: opacity 0.6s ease;
 }
 
 #photo-rain-container.active {
@@ -20,133 +18,135 @@
     pointer-events: auto;
 }
 
-/* 1. Precise Center Alignment + Pulsing Heart decoration */
-.success-message-wrapper {
-    position: absolute;
-    top: 30%; /* Shifted down slightly to center vertically on mobile better */
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    width: 90%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 2000; /* Above photos */
-}
 
-/* Pulsing red heart decoration around the message */
-.heart-decoration {
-    font-size: 8rem; /* Adjusted for mobile */
-    color: #e25656; /* Subtle wedding red */
-    opacity: 0.15; /* Transparent to not overpower text */
+/* ============================= */
+/* CENTER MESSAGE */
+/* ============================= */
+
+.success-message-wrapper {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: -1;
-    animation: pulse 3s infinite;
-}
-
-@keyframes pulse {
-    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.15; }
-    50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.25; }
-    100% { transform: translate(-50%, -50%) scale(1); opacity: 0.15; }
+    text-align: center;
+    z-index: 2000; /* Always above photos */
+    width: 90%;
+    max-width: 400px;
 }
 
 .success-title {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 4px;
     color: var(--primary);
-    font-size: 1.8rem; /* Slightly larger for emphasis */
-    font-weight: bold;
-    letter-spacing: 3px;
-    margin: 0;
-    display: block;
+    margin-bottom: 12px;
 }
 
 .success-subtitle {
-    font-size: 1.1rem;
-    font-weight: normal;
-    display: block;
-    margin-top: 15px; /* Perfect spacing */
-    color: #888;
+    font-size: 1rem;
+    color: #777;
+    letter-spacing: 2px;
 }
 
-/* Fade in for the text */
+/* Smooth fade in */
 .text-fade-in {
     opacity: 0;
-    animation: textFadeIn 1s ease forwards;
-    animation-delay: 0.5s; /* Wait for background blur */
+    animation: fadeText 1.2s ease forwards;
+    animation-delay: 0.5s;
 }
 
-@keyframes textFadeIn {
+@keyframes fadeText {
     to { opacity: 1; }
 }
 
-/* 2. Photo Grid (Fixed Locations to fill the screen) */
+
+/* ============================= */
+/* PHOTO GRID BACKGROUND */
+/* ============================= */
+
 .fixed-photo-grid {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     display: grid;
-    /* Creating a 3x3 grid cite: to tile photos] */
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    padding: 10px;
+    gap: 8px; /* smaller gap for mobile */
+    padding: 12px;
     box-sizing: border-box;
+    z-index: 1000;
 }
 
-/* Individual Scattered Photos in the grid */
+
+/* Photo Styling */
+
 .scatter-photo {
-    position: relative; /* Fixed positions defined by grid */
-    grid-column: span 1;
-    grid-row: span 1;
-    width: 90%; /* Scale to fit grid cell */
-    height: auto;
-    aspect-ratio: 1 / 1.1; /* Maintain polaroid proportion */
+    width: 100%;
+    aspect-ratio: 3 / 4;
     object-fit: cover;
-    background: white;
-    padding: 5px 5px 15px 5px; /* Polaroid frame */
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-    cursor: pointer;
+    background: #fff;
+    padding: 6px 6px 18px 6px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
     opacity: 0;
-    align-self: center;
-    justify-self: center;
-    
-    /* Variable --rot is still set dynamically for a random angle]] */
-    transform: scale(0.2) rotate(var(--rot)); 
+
+    transform: scale(0.4) rotate(var(--rot));
+    animation: landPhoto 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    animation: landOnScreenGrid 2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-/* Desktop sizing (keeps photos clean) */
-@media (min-width: 600px) {
-    .fixed-photo-grid { padding: 40px; gap: 20px; }
-    .scatter-photo { padding: 10px 10px 30px 10px; }
-    .heart-decoration { font-size: 15rem; }
-    .success-title { font-size: 2.5rem; }
+
+/* Animation */
+
+@keyframes landPhoto {
+    0% {
+        opacity: 0;
+        transform: scale(0.2) rotate(calc(var(--rot) - 20deg));
+    }
+    60% { opacity: 1; }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(var(--rot));
+    }
 }
 
-/* Random Angle transition */
-@keyframes landOnScreenGrid {
-    0% { opacity: 0; transform: scale(0.1) rotate(calc(var(--rot) - 15deg)); }
-    50% { opacity: 1; }
-    100% { opacity: 1; transform: scale(1) rotate(var(--rot)); }
-}
 
-/* Hover Interaction */
-.scatter-photo:active,
+/* Hover effect */
+
 .scatter-photo:hover {
     transform: scale(1.05) rotate(var(--rot)) !important;
-    z-index: 2000 !important;
+    z-index: 1500;
     box-shadow: 0 15px 35px rgba(0,0,0,0.25);
 }
 
-/* Popout Modal */
+
+/* ============================= */
+/* DESKTOP OPTIMIZATION */
+/* ============================= */
+
+@media (min-width: 768px) {
+
+    .fixed-photo-grid {
+        gap: 20px;
+        padding: 40px;
+    }
+
+    .success-title {
+        font-size: 2.6rem;
+    }
+
+    .success-subtitle {
+        font-size: 1.2rem;
+    }
+}
+
+
+/* ============================= */
+/* MODAL */
+/* ============================= */
+
 #photo-modal {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.9);
+    background: rgba(0,0,0,0.92);
     z-index: 3000;
     display: flex;
     justify-content: center;
@@ -164,13 +164,13 @@
 #photo-modal img {
     max-width: 95%;
     max-height: 85vh;
-    border-radius: 4px;
-    box-shadow: 0 5px 40px rgba(0,0,0,0.8);
+    border-radius: 6px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
 }
 
 .modal-hint {
     position: absolute;
-    bottom: 20px;
+    bottom: 25px;
     color: #fff;
     font-size: 0.85rem;
     opacity: 0.7;
