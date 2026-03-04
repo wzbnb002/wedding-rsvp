@@ -65,11 +65,11 @@
 }
 
 @keyframes fadeText {
-    0% { 
+    0% {
         opacity: 0;
         transform: translateY(-15px);
     }
-    to { 
+    to {
         opacity: 1;
         transform: translateY(0);
     }
@@ -86,6 +86,8 @@
     width: 100%;
     overflow: visible;
     z-index: 1200;
+    /* Explicit min-height so % positions on children resolve correctly */
+    min-height: 0;
 }
 
 
@@ -132,7 +134,7 @@
 
 
 /* ============================= */
-/* MOBILE OPTIMIZATION */
+/* MOBILE (< 768px) */
 /* ============================= */
 
 @media (max-width: 767px) {
@@ -151,36 +153,45 @@
         letter-spacing: 2px;
     }
 
-    .fixed-photo-grid {
-        min-height: 350px;
-    }
-
+    /* Bigger photos on mobile for a lush, full feel */
     .scatter-photo {
-        width: 100px;
-        height: 100px;
-        padding: 4px;
+        width: 130px;
+        height: 130px;
+        padding: 6px;
     }
 
-    /* Mobile positions - 3x3 grid + 4 overlapping */
-    .scatter-photo:nth-child(1) { top: 10px; left: 10px; z-index: 1; }
-    .scatter-photo:nth-child(2) { top: 10px; left: calc(50% - 60px); z-index: 1; }
-    .scatter-photo:nth-child(3) { top: 10px; right: 10px; z-index: 1; }
-    .scatter-photo:nth-child(4) { top: 110px; left: 10px; z-index: 1; }
-    .scatter-photo:nth-child(5) { top: 110px; left: calc(50% - 60px); z-index: 1; }
-    .scatter-photo:nth-child(6) { top: 110px; right: 10px; z-index: 1; }
-    .scatter-photo:nth-child(7) { top: 210px; left: 10px; z-index: 1; }
-    .scatter-photo:nth-child(8) { top: 210px; left: calc(50% - 60px); z-index: 1; }
-    .scatter-photo:nth-child(9) { top: 210px; right: 10px; z-index: 1; }
-    /* Overlapping photos */
-    .scatter-photo:nth-child(10) { top: 60px; left: calc(25% - 60px); z-index: 5; }
-    .scatter-photo:nth-child(11) { top: 60px; left: calc(75% - 60px); z-index: 5; }
-    .scatter-photo:nth-child(12) { top: 160px; left: calc(25% - 60px); z-index: 5; }
-    .scatter-photo:nth-child(13) { top: 160px; left: calc(75% - 60px); z-index: 5; }
+    /*
+     * 3×3 grid fills the screen (130px photos on ~390px wide screen)
+     * then 4 "bridge" photos sit exactly at the seam between neighbouring
+     * grid tiles — this creates visible overlapping.
+     * Using px so positions don't depend on parent's computed height.
+     */
+
+    /* Row 1 */
+    .scatter-photo:nth-child(1)  { top: 5px;   left: 5px;               z-index: 1; }
+    .scatter-photo:nth-child(2)  { top: 5px;   left: calc(50% - 65px);  z-index: 1; }
+    .scatter-photo:nth-child(3)  { top: 5px;   right: 5px;              z-index: 1; }
+
+    /* Row 2 */
+    .scatter-photo:nth-child(4)  { top: 140px; left: 5px;               z-index: 1; }
+    .scatter-photo:nth-child(5)  { top: 140px; left: calc(50% - 65px);  z-index: 1; }
+    .scatter-photo:nth-child(6)  { top: 140px; right: 5px;              z-index: 1; }
+
+    /* Row 3 */
+    .scatter-photo:nth-child(7)  { top: 275px; left: 5px;               z-index: 1; }
+    .scatter-photo:nth-child(8)  { top: 275px; left: calc(50% - 65px);  z-index: 1; }
+    .scatter-photo:nth-child(9)  { top: 275px; right: 5px;              z-index: 1; }
+
+    /* Overlap photos — bridging the seam between adjacent grid tiles */
+    .scatter-photo:nth-child(10) { top: 75px;  left: calc(25% - 65px);  z-index: 5; }
+    .scatter-photo:nth-child(11) { top: 75px;  left: calc(75% - 65px);  z-index: 5; }
+    .scatter-photo:nth-child(12) { top: 210px; left: calc(25% - 65px);  z-index: 5; }
+    .scatter-photo:nth-child(13) { top: 210px; left: calc(75% - 65px);  z-index: 5; }
 }
 
 
 /* ============================= */
-/* DESKTOP OPTIMIZATION */
+/* DESKTOP (≥ 768px) */
 /* ============================= */
 
 @media (min-width: 768px) {
@@ -199,31 +210,48 @@
         letter-spacing: 4px;
     }
 
-    .fixed-photo-grid {
-        min-height: 500px;
-    }
-
     .scatter-photo {
-        width: 180px;
-        height: 180px;
+        width: 200px;
+        height: 200px;
         padding: 10px;
     }
 
-    /* Desktop positions - 3x3 grid + 4 overlapping at intersections */
-    .scatter-photo:nth-child(1) { top: 0; left: 0; z-index: 1; }
-    .scatter-photo:nth-child(2) { top: 0; left: 33.33%; z-index: 1; }
-    .scatter-photo:nth-child(3) { top: 0; left: 66.66%; z-index: 1; }
-    .scatter-photo:nth-child(4) { top: 33.33%; left: 0; z-index: 1; }
-    .scatter-photo:nth-child(5) { top: 33.33%; left: 33.33%; z-index: 1; }
-    .scatter-photo:nth-child(6) { top: 33.33%; left: 66.66%; z-index: 1; }
-    .scatter-photo:nth-child(7) { top: 66.66%; left: 0; z-index: 1; }
-    .scatter-photo:nth-child(8) { top: 66.66%; left: 33.33%; z-index: 1; }
-    .scatter-photo:nth-child(9) { top: 66.66%; left: 66.66%; z-index: 1; }
-    /* Overlapping at intersections */
-    .scatter-photo:nth-child(10) { top: 16.66%; left: 16.66%; z-index: 5; }
-    .scatter-photo:nth-child(11) { top: 16.66%; left: 50%; z-index: 5; }
-    .scatter-photo:nth-child(12) { top: 50%; left: 16.66%; z-index: 5; }
-    .scatter-photo:nth-child(13) { top: 50%; left: 50%; z-index: 5; }
+    /*
+     * STRATEGY: absolute px positions so photos spread all the way to
+     * the screen edges. Columns are at left≈0, left≈33%, right≈0.
+     * Rows spaced 180px apart.
+     * 4 overlap photos sit at the 4 cross-points of the row/column seams,
+     * exactly centred on the gap — overlapping 4 grid tiles at once.
+     */
+
+    /* Row 1 */
+    .scatter-photo:nth-child(1) { top: 0;     left: -20px;                z-index: 1; }
+    .scatter-photo:nth-child(2) { top: -10px; left: calc(33% - 100px);    z-index: 1; }
+    .scatter-photo:nth-child(3) { top: 0;     left: auto; right: -20px;   z-index: 1; }
+
+    /* Row 2 */
+    .scatter-photo:nth-child(4) { top: 180px; left: -20px;                z-index: 1; }
+    .scatter-photo:nth-child(5) { top: 180px; left: calc(33% - 100px);    z-index: 1; }
+    .scatter-photo:nth-child(6) { top: 180px; left: auto; right: -20px;   z-index: 1; }
+
+    /* Row 3 */
+    .scatter-photo:nth-child(7) { top: 360px; left: -20px;                z-index: 1; }
+    .scatter-photo:nth-child(8) { top: 360px; left: calc(33% - 100px);    z-index: 1; }
+    .scatter-photo:nth-child(9) { top: 360px; left: auto; right: -20px;   z-index: 1; }
+
+    /*
+     * Overlap photos at the 4 grid intersections.
+     * Horizontally: between col1(left≈-20) and col2(≈33%-100px)
+     *               → seam is roughly at 16.5% → centre there
+     *             and between col2(≈33%-100) and col3(right≈-20)
+     *               → seam is roughly at 66% → centre there, offset -100px
+     * Vertically:   between row1(top≈0) and row2(top≈180)  → seam at ~90px
+     *               between row2(top≈180) and row3(top≈360) → seam at ~270px
+     */
+    .scatter-photo:nth-child(10) { top: 90px;  left: calc(16.5% - 100px); z-index: 5; }
+    .scatter-photo:nth-child(11) { top: 90px;  left: calc(66% - 100px);   z-index: 5; }
+    .scatter-photo:nth-child(12) { top: 270px; left: calc(16.5% - 100px); z-index: 5; }
+    .scatter-photo:nth-child(13) { top: 270px; left: calc(66% - 100px);   z-index: 5; }
 }
 
 
