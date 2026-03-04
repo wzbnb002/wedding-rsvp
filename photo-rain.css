@@ -217,41 +217,48 @@
     }
 
     /*
-     * STRATEGY: absolute px positions so photos spread all the way to
-     * the screen edges. Columns are at left≈0, left≈33%, right≈0.
-     * Rows spaced 180px apart.
-     * 4 overlap photos sit at the 4 cross-points of the row/column seams,
-     * exactly centred on the gap — overlapping 4 grid tiles at once.
+     * STRATEGY: 3 columns evenly at 0%, 33%, 66% of the container width.
+     * All use "left" (no "right") so they're consistent and predictable.
+     * Photos are 200px wide; half = 100px for centering within each column slot.
+     *
+     * Col 1 anchor: left = -20px          (bleeds off left edge)
+     * Col 2 anchor: left = calc(50% - 100px)  (true centre)
+     * Col 3 anchor: left = calc(100% - 180px) (bleeds off right edge)
+     *
+     * Rows spaced 180px apart, starting at top: 0.
+     * 4 overlap photos sit at the mid-points between adjacent columns AND rows.
      */
 
     /* Row 1 */
-    .scatter-photo:nth-child(1) { top: 0;     left: -20px;                z-index: 1; }
-    .scatter-photo:nth-child(2) { top: -10px; left: calc(33% - 100px);    z-index: 1; }
-    .scatter-photo:nth-child(3) { top: 0;     left: auto; right: -20px;   z-index: 1; }
+    .scatter-photo:nth-child(1) { top: 0;     left: -20px;                     z-index: 1; }
+    .scatter-photo:nth-child(2) { top: 0;     left: calc(50% - 100px);         z-index: 1; }
+    .scatter-photo:nth-child(3) { top: 0;     left: calc(100% - 180px);        z-index: 1; }
 
     /* Row 2 */
-    .scatter-photo:nth-child(4) { top: 180px; left: -20px;                z-index: 1; }
-    .scatter-photo:nth-child(5) { top: 180px; left: calc(33% - 100px);    z-index: 1; }
-    .scatter-photo:nth-child(6) { top: 180px; left: auto; right: -20px;   z-index: 1; }
+    .scatter-photo:nth-child(4) { top: 190px; left: -20px;                     z-index: 1; }
+    .scatter-photo:nth-child(5) { top: 190px; left: calc(50% - 100px);         z-index: 1; }
+    .scatter-photo:nth-child(6) { top: 190px; left: calc(100% - 180px);        z-index: 1; }
 
     /* Row 3 */
-    .scatter-photo:nth-child(7) { top: 360px; left: -20px;                z-index: 1; }
-    .scatter-photo:nth-child(8) { top: 360px; left: calc(33% - 100px);    z-index: 1; }
-    .scatter-photo:nth-child(9) { top: 360px; left: auto; right: -20px;   z-index: 1; }
+    .scatter-photo:nth-child(7) { top: 380px; left: -20px;                     z-index: 1; }
+    .scatter-photo:nth-child(8) { top: 380px; left: calc(50% - 100px);         z-index: 1; }
+    .scatter-photo:nth-child(9) { top: 380px; left: calc(100% - 180px);        z-index: 1; }
 
     /*
-     * Overlap photos at the 4 grid intersections.
-     * Horizontally: between col1(left≈-20) and col2(≈33%-100px)
-     *               → seam is roughly at 16.5% → centre there
-     *             and between col2(≈33%-100) and col3(right≈-20)
-     *               → seam is roughly at 66% → centre there, offset -100px
-     * Vertically:   between row1(top≈0) and row2(top≈180)  → seam at ~90px
-     *               between row2(top≈180) and row3(top≈360) → seam at ~270px
+     * Overlap photos: centred between col1↔col2 and col2↔col3 horizontally,
+     * and between row1↔row2 and row2↔row3 vertically.
+     *
+     * Horizontal midpoints:
+     *   Between col1 (centre ≈ 80px) and col2 (centre = 50%)  → ~25% - 100px
+     *   Between col2 (centre = 50%) and col3 (centre ≈ 100%-80px) → ~75% - 100px
+     * Vertical midpoints:
+     *   Between row1 (top 0) and row2 (top 190px) → top: 95px
+     *   Between row2 (top 190) and row3 (top 380px) → top: 285px
      */
-    .scatter-photo:nth-child(10) { top: 90px;  left: calc(16.5% - 100px); z-index: 5; }
-    .scatter-photo:nth-child(11) { top: 90px;  left: calc(66% - 100px);   z-index: 5; }
-    .scatter-photo:nth-child(12) { top: 270px; left: calc(16.5% - 100px); z-index: 5; }
-    .scatter-photo:nth-child(13) { top: 270px; left: calc(66% - 100px);   z-index: 5; }
+    .scatter-photo:nth-child(10) { top: 95px;  left: calc(25% - 100px);        z-index: 5; }
+    .scatter-photo:nth-child(11) { top: 95px;  left: calc(75% - 100px);        z-index: 5; }
+    .scatter-photo:nth-child(12) { top: 285px; left: calc(25% - 100px);        z-index: 5; }
+    .scatter-photo:nth-child(13) { top: 285px; left: calc(75% - 100px);        z-index: 5; }
 }
 
 
