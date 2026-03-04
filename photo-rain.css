@@ -109,11 +109,13 @@
 /* ===================================================== */
 /* MOBILE  (max-width: 767px)                            */
 /*                                                       */
-/* 12 photos in a 4×3 loose grid.                       */
-/* Base positions: col × 33.33vw, row × 22vh            */
-/* Each photo nudged randomly within ±4vw / ±3vh        */
-/* so the layout feels scattered but still covers        */
-/* the whole screen evenly.                              */
+/* Photos are landscape 3:2 ratio to match wedding pics  */
+/* Photo: 32vw wide × 21vw tall (3:2 landscape)         */
+/* 4 rows × ~22vw = ~88vw tall                          */
+/* Row spacing in vh to fill portrait screen evenly      */
+/*                                                       */
+/* 3 columns: left 1vw | 34vw | 67vw                    */
+/* 4 rows:    top  2vh | 27vh | 52vh | 72vh             */
 /* ===================================================== */
 
 @media (max-width: 767px) {
@@ -121,27 +123,31 @@
     .success-title   { font-size: 1.8rem; letter-spacing: 4px; margin-bottom: 2px; }
     .success-subtitle{ font-size: 0.9rem; letter-spacing: 2px; }
 
-    .scatter-photo { width: 30vw; height: 21vh; padding: 4px; }
+    .scatter-photo {
+        width: 32vw;
+        height: 21vw;   /* landscape 3:2 ratio */
+        padding: 4px;
+    }
 
-    /* Row 1 — base top: 0 */
-    .scatter-photo:nth-child(1)  { top: calc(0vh  + 1vh);  left: calc(1.66vw  - 2vw); }
-    .scatter-photo:nth-child(2)  { top: calc(0vh  - 0vh);  left: calc(35vw    + 3vw); }
-    .scatter-photo:nth-child(3)  { top: calc(0vh  + 2vh);  left: calc(68.33vw - 1vw); }
+    /* Row 1 — base top: 2vh */
+    .scatter-photo:nth-child(1)  { top: calc(2vh  + 1vh);  left: calc(1vw   - 1vw); }
+    .scatter-photo:nth-child(2)  { top: calc(2vh  - 0vh);  left: calc(34vw  + 2vw); }
+    .scatter-photo:nth-child(3)  { top: calc(2vh  + 2vh);  left: calc(67vw  - 1vw); }
 
-    /* Row 2 — base top: 22vh */
-    .scatter-photo:nth-child(4)  { top: calc(22vh - 2vh);  left: calc(1.66vw  + 3vw); }
-    .scatter-photo:nth-child(5)  { top: calc(22vh + 3vh);  left: calc(35vw    - 2vw); }
-    .scatter-photo:nth-child(6)  { top: calc(22vh - 1vh);  left: calc(68.33vw + 1vw); }
+    /* Row 2 — base top: 27vh */
+    .scatter-photo:nth-child(4)  { top: calc(27vh - 1vh);  left: calc(1vw   + 2vw); }
+    .scatter-photo:nth-child(5)  { top: calc(27vh + 2vh);  left: calc(34vw  - 2vw); }
+    .scatter-photo:nth-child(6)  { top: calc(27vh - 2vh);  left: calc(67vw  + 1vw); }
 
-    /* Row 3 — base top: 44vh */
-    .scatter-photo:nth-child(7)  { top: calc(44vh + 2vh);  left: calc(1.66vw  - 1vw); }
-    .scatter-photo:nth-child(8)  { top: calc(44vh - 3vh);  left: calc(35vw    + 2vw); }
-    .scatter-photo:nth-child(9)  { top: calc(44vh + 1vh);  left: calc(68.33vw - 3vw); }
+    /* Row 3 — base top: 52vh */
+    .scatter-photo:nth-child(7)  { top: calc(52vh + 1vh);  left: calc(1vw   - 1vw); }
+    .scatter-photo:nth-child(8)  { top: calc(52vh - 2vh);  left: calc(34vw  + 1vw); }
+    .scatter-photo:nth-child(9)  { top: calc(52vh + 2vh);  left: calc(67vw  - 2vw); }
 
-    /* Row 4 — base top: 66vh */
-    .scatter-photo:nth-child(10) { top: calc(66vh - 1vh);  left: calc(1.66vw  + 2vw); }
-    .scatter-photo:nth-child(11) { top: calc(66vh + 2vh);  left: calc(35vw    - 3vw); }
-    .scatter-photo:nth-child(12) { top: calc(66vh - 2vh);  left: calc(68.33vw + 1vw); }
+    /* Row 4 — base top: 72vh */
+    .scatter-photo:nth-child(10) { top: calc(72vh - 1vh);  left: calc(1vw   + 1vw); }
+    .scatter-photo:nth-child(11) { top: calc(72vh + 1vh);  left: calc(34vw  - 1vw); }
+    .scatter-photo:nth-child(12) { top: calc(72vh - 2vh);  left: calc(67vw  + 1vw); }
 }
 
 
