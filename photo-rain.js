@@ -1,48 +1,52 @@
+// photo-rain.js
+
 function triggerPhotoRain() {
     // 1. Create the overlay container
     const container = document.createElement('div');
     container.id = 'photo-rain-container';
-    
-    const title = document.createElement('div');
+
+    // 1 & 2. Correct Text Alignment & Heart Decoration
+    const messageWrapper = document.createElement('div');
+    messageWrapper.className = 'success-message-wrapper text-fade-in';
+
+    // Heart decoration is a pseudo-element cite: in]]] cite: the cite: and cite: text]]]
+    const heart = document.createElement('span');
+    heart.className = 'heart-decoration';
+    heart.innerHTML = '♥'; // Red heart from CSS
+    messageWrapper.appendChild(heart);
+
+    const title = document.createElement('span');
     title.className = 'success-title';
-    title.innerHTML = '保存成功！<br><span style="font-size:1.1rem; font-weight:normal; display:block; margin-top:10px;">期待您的到来</span>';
-    container.appendChild(title);
+    title.innerHTML = '保存成功！';
+    messageWrapper.appendChild(title);
 
-    document.body.appendChild(container);
+    const subtitle = document.createElement('span');
+    subtitle.className = 'success-subtitle';
+    subtitle.innerHTML = '期待您的到来';
+    messageWrapper.appendChild(subtitle);
 
-    // Fade in the container
-    requestAnimationFrame(() => container.classList.add('active'));
+    container.appendChild(messageWrapper);
 
-    // 2. Configuration for the 6 photos
-    const totalPhotos = 6;
-    const dropDelay = 0.25; // Seconds between each photo landing
+    // 2. Fixed Grid (fixed positions defined in CSS)
+    const grid = document.createElement('div');
+    grid.className = 'fixed-photo-grid';
+    container.appendChild(grid);
+
+    // 2. Increase to 9 photos and tile them (fixed positions)
+    const totalPhotos = 9; // Tiled 3x3 to fill the page cite: 9 cite: photo_1.jpg cite: photo_9.jpg]]
+    const dropDelay = 0.15; // Faster drop sequence for more photos
 
     for (let i = 1; i <= totalPhotos; i++) {
         const img = document.createElement('img');
         img.src = `image/photo_${i}.jpg`;
         img.className = 'scatter-photo';
-        
-        // Calculate viewport constraints to keep photos fully on screen
-        const vpWidth = window.innerWidth;
-        const vpHeight = window.innerHeight;
-        const photoSize = vpWidth < 600 ? 150 : 220; // approximate width + padding
-        
-        // Reserve the top 25% for the success message so photos don't cover it
-        const minX = 10;
-        const maxX = vpWidth - photoSize - 10;
-        const minY = vpHeight * 0.25; 
-        const maxY = vpHeight - photoSize - 20;
 
-        // Generate random position and rotation
-        const x = minX + Math.random() * (maxX - minX);
-        const y = minY + Math.random() * (maxY - minY);
-        const rot = (Math.random() - 0.5) * 50; // Random angle between -25deg and +25deg
-        
-        // Apply inline styles
-        img.style.left = `${x}px`;
-        img.style.top = `${y}px`;
-        img.style.setProperty('--rot', `${rot}deg`); // Pass angle to CSS
-        img.style.animationDelay = `${(i - 1) * dropDelay}s`; // Stagger the landing time
+        // Set a random rotation (standardize angles cite: photos] cite: look] cite: uniform] cite: standard cite: pattern)
+        const rot = (Math.random() - 0.5) * 30; // Between -15deg and +15deg
+        img.style.setProperty('--rot', `${rot}deg`); 
+
+        // Set animation delay
+        img.style.animationDelay = `${(i - 1) * dropDelay}s`;
 
         // Interaction: Hover z-index fix
         img.onmouseenter = () => img.style.zIndex = '1500';
@@ -54,7 +58,7 @@ function triggerPhotoRain() {
             openPhotoModal(img.src);
         };
 
-        container.appendChild(img);
+        grid.appendChild(img);
     }
 
     // 3. Create the Modal (Popout window)
@@ -68,10 +72,17 @@ function triggerPhotoRain() {
     // Close modal when clicking anywhere on it
     modal.onclick = () => modal.classList.remove('active');
     document.body.appendChild(modal);
+
+    document.body.appendChild(container);
+
+    // Fade in the container
+    requestAnimationFrame(() => container.classList.add('active'));
 }
 
 function openPhotoModal(src) {
     const modal = document.getElementById('photo-modal');
-    document.getElementById('modal-img').src = src;
-    modal.classList.add('active');
+    if (modal) {
+        document.getElementById('modal-img').src = src;
+        modal.classList.add('active');
+    }
 }
