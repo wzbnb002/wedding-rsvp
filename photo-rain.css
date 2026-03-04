@@ -104,140 +104,76 @@
 
 
 /* ===================================================== */
-/* MOBILE  (portrait phones, max-width: 767px)           */
+/* MOBILE  (max-width: 767px)                            */
 /*                                                       */
-/* KEY INSIGHT: on portrait mobile, height >> width,     */
-/* so we use vw for X (columns) and vh for Y (rows).     */
-/*                                                       */
-/* Header is ~12vh tall. Remaining photo area ≈ 88vh.    */
-/* 3 rows must fit in 88vh  →  each row slot = ~29vh.    */
-/*                                                       */
-/* Photo size: 30vw wide × 28vh tall  (rectangular,      */
-/* fills both axes). Half-w = 15vw, half-h = 14vh.       */
-/*                                                       */
-/* 3 columns (each 33.33vw):                             */
-/*   Col centres: 16.66vw, 50vw, 83.33vw                 */
-/*   Left values: 1.66vw,  35vw, 68.33vw                 */
-/*                                                       */
-/* 3 rows (each 29vh, starting from 0 in grid area):     */
-/*   Row tops: 0vh, 29vh, 58vh                           */
-/*                                                       */
-/* 4 overlap photos at the 4 inner intersections:        */
-/*   X seams: 33.33vw − 15vw = 18.33vw                   */
-/*            66.66vw − 15vw = 51.66vw                   */
-/*   Y seams: 14.5vh (mid rows 1↔2)                      */
-/*            43.5vh (mid rows 2↔3)                      */
+/* 12 photos in a 4×3 loose grid.                       */
+/* Base positions: col × 33.33vw, row × 22vh            */
+/* Each photo nudged randomly within ±4vw / ±3vh        */
+/* so the layout feels scattered but still covers        */
+/* the whole screen evenly.                              */
 /* ===================================================== */
 
 @media (max-width: 767px) {
-    .success-message-wrapper {
-        padding: 10px 20px 6px;
-    }
-    .success-title {
-        font-size: 1.8rem;
-        letter-spacing: 4px;
-        margin-bottom: 2px;
-    }
-    .success-subtitle {
-        font-size: 0.9rem;
-        letter-spacing: 2px;
-    }
+    .success-message-wrapper { padding: 4vh 20px 3vh; }
+    .success-title   { font-size: 1.8rem; letter-spacing: 4px; margin-bottom: 2px; }
+    .success-subtitle{ font-size: 0.9rem; letter-spacing: 2px; }
 
-    .scatter-photo {
-        width: 30vw;
-        height: 28vh;
-        padding: 4px;
-    }
+    .scatter-photo { width: 30vw; height: 21vh; padding: 4px; }
 
-    /* Row 1 */
-    .scatter-photo:nth-child(1)  { top: 0;      left: 1.66vw;  z-index: 1; }
-    .scatter-photo:nth-child(2)  { top: 0;      left: 35vw;    z-index: 1; }
-    .scatter-photo:nth-child(3)  { top: 0;      left: 68.33vw; z-index: 1; }
+    /* Row 1 — base top: 0 */
+    .scatter-photo:nth-child(1)  { top: calc(0vh  + 1vh);  left: calc(1.66vw  - 2vw); }
+    .scatter-photo:nth-child(2)  { top: calc(0vh  - 0vh);  left: calc(35vw    + 3vw); }
+    .scatter-photo:nth-child(3)  { top: calc(0vh  + 2vh);  left: calc(68.33vw - 1vw); }
 
-    /* Row 2 */
-    .scatter-photo:nth-child(4)  { top: 29vh;   left: 1.66vw;  z-index: 1; }
-    .scatter-photo:nth-child(5)  { top: 29vh;   left: 35vw;    z-index: 1; }
-    .scatter-photo:nth-child(6)  { top: 29vh;   left: 68.33vw; z-index: 1; }
+    /* Row 2 — base top: 22vh */
+    .scatter-photo:nth-child(4)  { top: calc(22vh - 2vh);  left: calc(1.66vw  + 3vw); }
+    .scatter-photo:nth-child(5)  { top: calc(22vh + 3vh);  left: calc(35vw    - 2vw); }
+    .scatter-photo:nth-child(6)  { top: calc(22vh - 1vh);  left: calc(68.33vw + 1vw); }
 
-    /* Row 3 */
-    .scatter-photo:nth-child(7)  { top: 58vh;   left: 1.66vw;  z-index: 1; }
-    .scatter-photo:nth-child(8)  { top: 58vh;   left: 35vw;    z-index: 1; }
-    .scatter-photo:nth-child(9)  { top: 58vh;   left: 68.33vw; z-index: 1; }
+    /* Row 3 — base top: 44vh */
+    .scatter-photo:nth-child(7)  { top: calc(44vh + 2vh);  left: calc(1.66vw  - 1vw); }
+    .scatter-photo:nth-child(8)  { top: calc(44vh - 3vh);  left: calc(35vw    + 2vw); }
+    .scatter-photo:nth-child(9)  { top: calc(44vh + 1vh);  left: calc(68.33vw - 3vw); }
 
-    /* Overlap at inner intersections */
-    .scatter-photo:nth-child(10) { top: 14.5vh; left: 18.33vw; z-index: 5; }
-    .scatter-photo:nth-child(11) { top: 14.5vh; left: 51.66vw; z-index: 5; }
-    .scatter-photo:nth-child(12) { top: 43.5vh; left: 18.33vw; z-index: 5; }
-    .scatter-photo:nth-child(13) { top: 43.5vh; left: 51.66vw; z-index: 5; }
+    /* Row 4 — base top: 66vh */
+    .scatter-photo:nth-child(10) { top: calc(66vh - 1vh);  left: calc(1.66vw  + 2vw); }
+    .scatter-photo:nth-child(11) { top: calc(66vh + 2vh);  left: calc(35vw    - 3vw); }
+    .scatter-photo:nth-child(12) { top: calc(66vh - 2vh);  left: calc(68.33vw + 1vw); }
 }
 
 
 /* ===================================================== */
-/* DESKTOP  (landscape / wide screens, min-width: 768px) */
+/* DESKTOP  (min-width: 768px)                           */
 /*                                                       */
-/* On landscape, width >> height, so we use vw for both  */
-/* axes — columns AND rows — since vw is the constraint. */
-/*                                                       */
-/* Header ~10vh. Photo area ≈ 90vh ≈ (90/56.25)×vw      */
-/* On a 16:9 screen: 90vh = 90/56.25 × 100vw ≈ 160vw    */
-/* 3 rows × 22vw = 66vw tall — fits comfortably.         */
-/*                                                       */
-/* Photo: 22vw × 22vw. Half = 11vw.                     */
-/*                                                       */
-/* 3 columns (each 33.33vw):                             */
-/*   Col centres: 16.66vw, 50vw, 83.33vw                 */
-/*   Left values:  5.66vw, 39vw, 72.33vw                 */
-/*                                                       */
-/* 3 rows (each 22vw):                                   */
-/*   Row tops: 0, 22vw, 44vw                             */
-/*                                                       */
-/* 4 overlap photos at the 4 inner intersections:        */
-/*   X seams: 33.33vw − 11vw = 22.33vw                   */
-/*            66.66vw − 11vw = 55.66vw                   */
-/*   Y seams: 11vw (mid rows 1↔2)                        */
-/*            33vw (mid rows 2↔3)                        */
+/* 9 photos in a 3×3 loose grid.                        */
+/* Base positions: col × 33.33vw, row × 22vw            */
+/* Each photo nudged randomly within ±3vw / ±2vw        */
 /* ===================================================== */
 
 @media (min-width: 768px) {
-    .success-message-wrapper {
-        padding: 30px 20px 20px;
-    }
-    .success-title {
-        font-size: 2.8rem;
-        letter-spacing: 8px;
-        margin-bottom: 8px;
-    }
-    .success-subtitle {
-        font-size: 1.15rem;
-        letter-spacing: 4px;
-    }
+    .success-message-wrapper { padding: 3vh 20px 2vh; }
+    .success-title   { font-size: 2.8rem; letter-spacing: 8px; margin-bottom: 8px; }
+    .success-subtitle{ font-size: 1.15rem; letter-spacing: 4px; }
 
-    .scatter-photo {
-        width: 22vw;
-        height: 22vw;
-        padding: 0.8vw;
-    }
+    .scatter-photo { width: 22vw; height: 22vw; padding: 0.8vw; }
 
-    /* Row 1 */
-    .scatter-photo:nth-child(1)  { top: 0;     left: 5.66vw;  z-index: 1; }
-    .scatter-photo:nth-child(2)  { top: 0;     left: 39vw;    z-index: 1; }
-    .scatter-photo:nth-child(3)  { top: 0;     left: 72.33vw; z-index: 1; }
+    /* Row 1 — base top: 0 */
+    .scatter-photo:nth-child(1)  { top: calc(0vw   + 1vw);  left: calc(5.66vw  - 2vw); }
+    .scatter-photo:nth-child(2)  { top: calc(0vw   - 0vw);  left: calc(39vw    + 2vw); }
+    .scatter-photo:nth-child(3)  { top: calc(0vw   + 2vw);  left: calc(72.33vw - 1vw); }
 
-    /* Row 2 */
-    .scatter-photo:nth-child(4)  { top: 22vw;  left: 5.66vw;  z-index: 1; }
-    .scatter-photo:nth-child(5)  { top: 22vw;  left: 39vw;    z-index: 1; }
-    .scatter-photo:nth-child(6)  { top: 22vw;  left: 72.33vw; z-index: 1; }
+    /* Row 2 — base top: 22vw */
+    .scatter-photo:nth-child(4)  { top: calc(22vw  - 2vw);  left: calc(5.66vw  + 3vw); }
+    .scatter-photo:nth-child(5)  { top: calc(22vw  + 2vw);  left: calc(39vw    - 3vw); }
+    .scatter-photo:nth-child(6)  { top: calc(22vw  - 1vw);  left: calc(72.33vw + 1vw); }
 
-    /* Row 3 */
-    .scatter-photo:nth-child(7)  { top: 44vw;  left: 5.66vw;  z-index: 1; }
-    .scatter-photo:nth-child(8)  { top: 44vw;  left: 39vw;    z-index: 1; }
-    .scatter-photo:nth-child(9)  { top: 44vw;  left: 72.33vw; z-index: 1; }
+    /* Row 3 — base top: 44vw */
+    .scatter-photo:nth-child(7)  { top: calc(44vw  + 1vw);  left: calc(5.66vw  - 1vw); }
+    .scatter-photo:nth-child(8)  { top: calc(44vw  - 2vw);  left: calc(39vw    + 3vw); }
+    .scatter-photo:nth-child(9)  { top: calc(44vw  + 2vw);  left: calc(72.33vw - 2vw); }
 
-    /* Overlap at inner intersections */
-    .scatter-photo:nth-child(10) { top: 11vw;  left: 22.33vw; z-index: 5; }
-    .scatter-photo:nth-child(11) { top: 11vw;  left: 55.66vw; z-index: 5; }
-    .scatter-photo:nth-child(12) { top: 33vw;  left: 22.33vw; z-index: 5; }
-    .scatter-photo:nth-child(13) { top: 33vw;  left: 55.66vw; z-index: 5; }
+    /* Hide any extra mobile-only photos on desktop */
+    .scatter-photo:nth-child(n+10) { display: none; }
 }
 
 

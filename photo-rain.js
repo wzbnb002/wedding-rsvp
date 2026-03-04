@@ -26,40 +26,24 @@ function triggerPhotoRain() {
     grid.className = 'fixed-photo-grid';
     container.appendChild(grid);
 
-    // Photo positions: [top%, left%, zIndex]
-    const positions = [
-        // Row 1
-        { top: '0%', left: '0%', z: 1 },      // 1
-        { top: '0%', left: '33%', z: 1 },     // 2
-        { top: '0%', left: '66%', z: 1 },     // 3
-        // Row 2
-        { top: '33%', left: '0%', z: 1 },     // 4
-        { top: '33%', left: '33%', z: 1 },    // 5
-        { top: '33%', left: '66%', z: 1 },    // 6
-        // Row 3
-        { top: '66%', left: '0%', z: 1 },     // 7
-        { top: '66%', left: '33%', z: 1 },    // 8
-        { top: '66%', left: '66%', z: 1 },    // 9
-        // Overlapping photos
-        { top: '16%', left: '16%', z: 5 },    // 10 - intersection of 1,2,4,5
-        { top: '16%', left: '49%', z: 5 },    // 11 - intersection of 2,3,5,6
-        { top: '49%', left: '16%', z: 5 },    // 12 - intersection of 4,5,7,8
-        { top: '49%', left: '49%', z: 5 },    // 13 - intersection of 5,6,8,9
-    ];
-
-    const totalPhotos = 13;
-    const dropDelay = 0.1;
+    // Mobile: 12 photos (4×3 grid), Desktop: 9 photos (3×3 grid)
+    // All positions are handled entirely by CSS nth-child rules —
+    // we just need to render the right number of <img> elements.
+    const isMobile = window.innerWidth < 768;
+    const totalPhotos = isMobile ? 12 : 9;
+    const totalSourcePhotos = 9; // how many photo_N.jpg files you have
+    const dropDelay = 0.08;
 
     for (let i = 0; i < totalPhotos; i++) {
         const img = document.createElement('img');
-        img.src = `image/photo_${(i % 9) + 1}.jpg`;
+        img.src = `image/photo_${(i % totalSourcePhotos) + 1}.jpg`;
         img.className = 'scatter-photo';
 
+        // Random rotation between -12deg and +12deg
         const rot = (Math.random() - 0.5) * 24;
         img.style.setProperty('--rot', `${rot}deg`);
-        img.style.top = positions[i].top;
-        img.style.left = positions[i].left;
-        img.style.zIndex = positions[i].z;
+
+        // Staggered drop animation
         img.style.animationDelay = `${i * dropDelay}s`;
 
         img.onclick = (e) => {
@@ -76,7 +60,6 @@ function triggerPhotoRain() {
         <img id="modal-img" src="" alt="Zoomed wedding photo">
         <div class="modal-hint">点击任意空白处关闭</div>
     `;
-
     modal.onclick = () => modal.classList.remove('active');
 
     document.body.appendChild(container);
