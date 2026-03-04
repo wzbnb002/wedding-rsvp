@@ -9,7 +9,9 @@
     
     <meta property="og:title" content="王振邦 & 何婧昱 婚礼邀约">
     <meta property="og:description" content="期待与您共同见证我们的幸福时刻">
-    <meta property="og:image" content="https://wedding-rsvp-c4m.pages.dev/wedding_pic_1.jpg">
+    <meta property="og:image" content="https://wedding-rsvp-c4m.pages.dev/image/wedding_pic_1.jpg">
+
+    <link rel="stylesheet" href="photo-rain.css">
 
     <style>
         :root {
@@ -312,7 +314,9 @@
         };
 
         await fetch(`/api/rsvp?name=${encodeURIComponent(name)}`, { method: 'POST', body: JSON.stringify(payload) });
-        alert("保存成功！期待您的到来。");
+        
+        // Trigger the new photo rain effect instead of the alert
+        triggerPhotoRain();
     }
 
     async function loadAdmin() {
@@ -344,5 +348,6 @@
         document.getElementById('statRooms').innerText = r;
     }
 </script>
+<script src="photo-rain.js"></script>
 </body>
 </html>
