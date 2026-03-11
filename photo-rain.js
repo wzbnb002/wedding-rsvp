@@ -26,17 +26,26 @@ function triggerPhotoRain() {
     grid.className = 'fixed-photo-grid';
     container.appendChild(grid);
 
-    // Mobile: 12 photos (4×3 grid), Desktop: 9 photos (3×3 grid)
-    // All positions are handled entirely by CSS nth-child rules —
-    // we just need to render the right number of <img> elements.
     const isMobile = window.innerWidth < 768;
     const totalPhotos = isMobile ? 12 : 9;
-    const totalSourcePhotos = 9; // how many photo_N.jpg files you have
     const dropDelay = 0.08;
+
+    // ✅ Explicit image list (mixed jpg + png supported)
+    const images = [
+        "image/picture_1.png",
+        "image/picture_2.png",
+        "image/picture_3.jpg",
+        "image/picture_4.png",
+        "image/picture_5.png",
+        "image/picture_6.png",
+        "image/picture_7.png",
+        "image/picture_8.png",
+        "image/picture_9.png"
+    ];
 
     for (let i = 0; i < totalPhotos; i++) {
         const img = document.createElement('img');
-        img.src = `image/picture_${(i % totalSourcePhotos) + 1}.jpg`;
+        img.src = images[i % images.length];
         img.className = 'scatter-photo';
 
         // Random rotation between -12deg and +12deg
