@@ -36,7 +36,7 @@ function triggerPhotoRain() {
 
     for (let i = 0; i < totalPhotos; i++) {
         const img = document.createElement('img');
-        img.src = `image/photo_${(i % totalSourcePhotos) + 1}.jpg`;
+        img.src = `image/picture_${(i % totalSourcePhotos) + 1}.jpg`;
         img.className = 'scatter-photo';
 
         // Random rotation between -12deg and +12deg
